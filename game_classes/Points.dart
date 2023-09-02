@@ -60,5 +60,5 @@ class Points {
   }
 
   @override
-  int get hashCode => super.hashCode;
+  int get hashCode => xCord.hashCode ^ yCord.hashCode;
 }

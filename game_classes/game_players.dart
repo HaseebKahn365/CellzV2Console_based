@@ -28,6 +28,12 @@ class GamePlayers {
     squaresOwned.add(s1);
   }
 
+  //a method to add to the linesDrawn list
+
+  void addLines(Lines l1) {
+    linesDrawn.add(l1);
+  }
+
   @override
   String toString() {
     return 'GamePlayers(isPlayer: $isPlayer, score: $score, numOfLives: $numOfLives, linesDrawn: $linesDrawn, squaresOwned: $squaresOwned)';
