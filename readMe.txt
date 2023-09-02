@@ -42,6 +42,7 @@ Void CheckSquare(Lines providedLine){
 //this function will check the square based on the line provided as an argument
 }
 Overload the equality operator for Lines:
+//a proper overload of the == operator was required which is now resolved in the latest version of this project.
 bool operator ==(Line l2){
 if(this.firstPoint == l2.firstPoint && this.secondPoint == l2.secondPoint){return true;} else {return false;}
 }

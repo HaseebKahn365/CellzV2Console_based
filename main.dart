@@ -113,4 +113,8 @@ void main() {
 
   checkSquare(
       l2); //This should now be able to check the square and add it to the list of squares owned by the player because we just properly overloaded the == operator for the Lines class
+
+  checkSquare(l3); //this should check for square on the right side of the square created by l3
+
+  checkSquare(l4); //this should check for square on the left side of the square created by l4
 }

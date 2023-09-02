@@ -124,6 +124,8 @@ checkSquare(Lines newLine) {
       break;
 
     case LineDirection.Vert:
+
+      //checking for the square on the left side of the newLine in the same manner as above
       Lines L1 = Lines(
           firstPoint: Points(xCord: newLine.firstPoint.xCord, yCord: newLine.firstPoint.yCord),
           secondPoint: Points(xCord: newLine.firstPoint.xCord - 1, yCord: newLine.firstPoint.yCord),
@@ -145,7 +147,7 @@ checkSquare(Lines newLine) {
       if (allLines.contains(L1) && allLines.contains(L2) && allLines.contains(L3)) {
         Square s1 = Square(L1Horiz: L1, L2Horiz: L2, L1Vert: newLine, L2Vert: L3);
         humanPlayer.addSquares(s1);
-        print('we have detected a sqaure, I repeat. a square \n');
+        print('we have detected a sqaure, I repeat. a square on the left side of the newLine\n');
 
         humanPlayer.incrementScore();
 
@@ -175,7 +177,7 @@ checkSquare(Lines newLine) {
       if (allLines.contains(L1) && allLines.contains(L2) && allLines.contains(L3)) {
         Square s1 = Square(L1Horiz: L1, L2Horiz: L2, L1Vert: newLine, L2Vert: L3);
         humanPlayer.addSquares(s1);
-        print('we have detected a sqaure, I repeat\n');
+        print('we have detected a sqaure, I repeat. a square on the right side of the newline\n');
 
         humanPlayer.incrementScore();
 
