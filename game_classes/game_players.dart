@@ -4,11 +4,13 @@ class GamePlayers {
   bool isPlayer = false;
   int score = 0;
   int numOfLives = 4;
+  bool hasTurn;
   List<Lines> linesDrawn = [];
   List<Square> squaresOwned = [];
   //Constructor to instantiate the values:
   GamePlayers(
       {required this.isPlayer,
+      this.hasTurn = true,
       required this.score,
       required this.numOfLives,
       required this.linesDrawn,
@@ -36,6 +38,6 @@ class GamePlayers {
 
   @override
   String toString() {
-    return 'GamePlayers(isPlayer: $isPlayer, score: $score, numOfLives: $numOfLives, linesDrawn: $linesDrawn, squaresOwned: $squaresOwned)';
+    return 'GamePlayer(isPlayer: $isPlayer, score: $score, numOfLives: $numOfLives, linesDrawn: ${linesDrawn.length}, squaresOwned: $squaresOwned)';
   }
 }
