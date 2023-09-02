@@ -1,8 +1,8 @@
 import '../game_classes.dart';
 import '../lists_of_objects.dart';
 
-//create an instance of currentUser:
-final currentUser = GamePlayers(isPlayer: true, score: 0, numOfLives: 4, linesDrawn: [], squaresOwned: []);
+//create an instance of humanPlayer:
+final humanPlayer = GamePlayers(isPlayer: true, score: 0, numOfLives: 4, linesDrawn: [], squaresOwned: []);
 
 //global list of pointsUsed
 
@@ -10,6 +10,7 @@ Lines createLine(Points p1, Points p2) {
   Lines newLine;
   if (p1.xCord == p2.xCord) {
     //check in allPoints where a point matches with p2 and mark that point as selected
+    //TODO:set isSelected to false and isMarked to true for the point p1 and p2 if line is valid and not already drawn after the square is checked and formed
     allPoints.forEach((element) {
       if (element == p2) {
         element.isSelected = true;
@@ -17,11 +18,11 @@ Lines createLine(Points p1, Points p2) {
     });
     //set the newLine's member isNew to true
     newLine =
-        Lines(firstPoint: p1, secondPoint: p2, owner: currentUser, lineDirection: LineDirection.Vert, isNew: true);
+        Lines(firstPoint: p1, secondPoint: p2, owner: humanPlayer, lineDirection: LineDirection.Vert, isNew: true);
     //add the new line to the list of lines
     allLines.add(newLine);
     //also add the new line to the list of lines drawn by the current user
-    currentUser.linesDrawn.add(newLine);
+    humanPlayer.linesDrawn.add(newLine);
   } else if (p1.yCord == p2.yCord) {
     //check in allPoints where a point matches with p2 and mark that point as selected
     allPoints.forEach((element) {
@@ -30,11 +31,11 @@ Lines createLine(Points p1, Points p2) {
       }
     });
     newLine =
-        Lines(firstPoint: p1, secondPoint: p2, owner: currentUser, lineDirection: LineDirection.Horiz, isNew: true);
+        Lines(firstPoint: p1, secondPoint: p2, owner: humanPlayer, lineDirection: LineDirection.Horiz, isNew: true);
     //add the new line to the list of lines
     allLines.add(newLine);
     //also add the new line to the list of lines drawn by the current user
-    currentUser.linesDrawn.add(newLine);
+    humanPlayer.linesDrawn.add(newLine);
   } else {
     throw Exception('Invalid Line');
   }
@@ -47,71 +48,62 @@ checkSquare(Lines newLine) {
   allLines.add(newLine);
   switch (newLine.lineDirection) {
     case LineDirection.Horiz:
+
+      //checking for the square below the newLine becuase origin point in in the top left corner and y increases downwards
       Lines L1 = Lines(
           firstPoint: Points(xCord: newLine.firstPoint.xCord, yCord: newLine.firstPoint.yCord),
           secondPoint: Points(xCord: newLine.firstPoint.xCord, yCord: newLine.firstPoint.yCord + 1),
-          owner: currentUser,
-          lineDirection: LineDirection.Vert);
+          owner: humanPlayer,
+          lineDirection: LineDirection.Vert); //first vertical line
 
       Lines L2 = Lines(
           firstPoint: Points(xCord: newLine.secondPoint.xCord, yCord: newLine.secondPoint.yCord),
           secondPoint: Points(xCord: newLine.secondPoint.xCord, yCord: newLine.secondPoint.yCord + 1),
-          owner: currentUser,
+          owner: humanPlayer,
           lineDirection: LineDirection.Vert);
 
       Lines L3 = Lines(
           firstPoint: Points(xCord: newLine.firstPoint.xCord, yCord: newLine.firstPoint.yCord + 1),
           secondPoint: Points(xCord: newLine.secondPoint.xCord, yCord: newLine.secondPoint.yCord + 1),
-          owner: currentUser,
+          owner: humanPlayer,
           lineDirection: LineDirection.Horiz);
-
-      var TestLine = Lines(
-          firstPoint: Points(xCord: 0, yCord: 0, isMarked: false, isDisabled: false, isSelected: false),
-          secondPoint: Points(xCord: 1, yCord: 0, isMarked: false, isDisabled: false, isSelected: false),
-          lineDirection: LineDirection.Horiz,
-          owner: currentUser);
-      print('\n\n\nTestLine .operator: ${allLines.contains(TestLine)}');
 
       if (allLines.contains(L1) && allLines.contains(L2) && allLines.contains(L3)) {
         Square s1 = Square(L1Horiz: newLine, L2Horiz: L3, L1Vert: L1, L2Vert: L2);
-        currentUser.addSquares(s1);
-        print('we have detected a sqaure, I repeat\n');
-        //checking if the .contains operator uses the overloaded == or not:
-        var TestLine = Lines(
-            firstPoint: Points(xCord: 0, yCord: 0, isMarked: false, isDisabled: false, isSelected: false),
-            secondPoint: Points(xCord: 1, yCord: 0, isMarked: false, isDisabled: false, isSelected: false),
-            lineDirection: LineDirection.Horiz,
-            owner: currentUser);
-        print('TestLine .operator: ${allLines.contains(TestLine)}');
-        currentUser.incrementScore();
+        humanPlayer.addSquares(s1);
+        print('we have detected a sqaure, I repeat. A square below the newLine\n');
 
-        if (GameCanvas.movesLeft == 0) {}
+        humanPlayer.incrementScore();
+
+        if (GameCanvas.movesLeft == 0) {
+          print('out of moves. Game Over');
+        }
       }
 
       L1 = Lines(
           firstPoint: Points(xCord: newLine.firstPoint.xCord, yCord: newLine.firstPoint.yCord),
           secondPoint: Points(xCord: newLine.firstPoint.xCord, yCord: newLine.firstPoint.yCord - 1),
-          owner: currentUser,
+          owner: humanPlayer,
           lineDirection: LineDirection.Vert);
 
       L2 = Lines(
           firstPoint: Points(xCord: newLine.secondPoint.xCord, yCord: newLine.secondPoint.yCord),
           secondPoint: Points(xCord: newLine.secondPoint.xCord, yCord: newLine.secondPoint.yCord - 1),
-          owner: currentUser,
+          owner: humanPlayer,
           lineDirection: LineDirection.Vert);
 
       L3 = Lines(
           firstPoint: Points(xCord: newLine.firstPoint.xCord, yCord: newLine.firstPoint.yCord - 1),
           secondPoint: Points(xCord: newLine.secondPoint.xCord, yCord: newLine.secondPoint.yCord - 1),
-          owner: currentUser,
+          owner: humanPlayer,
           lineDirection: LineDirection.Horiz);
 
       if (allLines.contains(L1) && allLines.contains(L2) && allLines.contains(L3)) {
         Square s1 = Square(L1Horiz: newLine, L2Horiz: L3, L1Vert: L1, L2Vert: L2);
-        currentUser.addSquares(s1);
+        humanPlayer.addSquares(s1);
         print('we have detected a sqaure, I repeat\n');
 
-        currentUser.incrementScore();
+        humanPlayer.incrementScore();
 
         if (GameCanvas.movesLeft == 0) {}
       }
@@ -122,27 +114,27 @@ checkSquare(Lines newLine) {
       Lines L1 = Lines(
           firstPoint: Points(xCord: newLine.firstPoint.xCord, yCord: newLine.firstPoint.yCord),
           secondPoint: Points(xCord: newLine.firstPoint.xCord - 1, yCord: newLine.firstPoint.yCord),
-          owner: currentUser,
+          owner: humanPlayer,
           lineDirection: LineDirection.Horiz);
 
       Lines L2 = Lines(
           firstPoint: Points(xCord: newLine.secondPoint.xCord, yCord: newLine.secondPoint.yCord),
           secondPoint: Points(xCord: newLine.secondPoint.xCord - 1, yCord: newLine.secondPoint.yCord),
-          owner: currentUser,
+          owner: humanPlayer,
           lineDirection: LineDirection.Horiz);
 
       Lines L3 = Lines(
           firstPoint: Points(xCord: newLine.firstPoint.xCord - 1, yCord: newLine.firstPoint.yCord),
           secondPoint: Points(xCord: newLine.secondPoint.xCord - 1, yCord: newLine.secondPoint.yCord),
-          owner: currentUser,
+          owner: humanPlayer,
           lineDirection: LineDirection.Vert);
 
       if (allLines.contains(L1) && allLines.contains(L2) && allLines.contains(L3)) {
         Square s1 = Square(L1Horiz: L1, L2Horiz: L2, L1Vert: newLine, L2Vert: L3);
-        currentUser.addSquares(s1);
-        print('we have detected a sqaure, I repeat\n');
+        humanPlayer.addSquares(s1);
+        print('we have detected a sqaure, I repeat. a square \n');
 
-        currentUser.incrementScore();
+        humanPlayer.incrementScore();
 
         if (GameCanvas.movesLeft == 0) {}
       }
@@ -152,27 +144,27 @@ checkSquare(Lines newLine) {
       L1 = Lines(
           firstPoint: Points(xCord: newLine.firstPoint.xCord, yCord: newLine.firstPoint.yCord),
           secondPoint: Points(xCord: newLine.firstPoint.xCord + 1, yCord: newLine.firstPoint.yCord),
-          owner: currentUser,
+          owner: humanPlayer,
           lineDirection: LineDirection.Horiz);
 
       L2 = Lines(
           firstPoint: Points(xCord: newLine.secondPoint.xCord, yCord: newLine.secondPoint.yCord),
           secondPoint: Points(xCord: newLine.secondPoint.xCord + 1, yCord: newLine.secondPoint.yCord),
-          owner: currentUser,
+          owner: humanPlayer,
           lineDirection: LineDirection.Horiz);
 
       L3 = Lines(
           firstPoint: Points(xCord: newLine.firstPoint.xCord + 1, yCord: newLine.firstPoint.yCord),
           secondPoint: Points(xCord: newLine.secondPoint.xCord + 1, yCord: newLine.secondPoint.yCord),
-          owner: currentUser,
+          owner: humanPlayer,
           lineDirection: LineDirection.Vert);
 
       if (allLines.contains(L1) && allLines.contains(L2) && allLines.contains(L3)) {
         Square s1 = Square(L1Horiz: L1, L2Horiz: L2, L1Vert: newLine, L2Vert: L3);
-        currentUser.addSquares(s1);
+        humanPlayer.addSquares(s1);
         print('we have detected a sqaure, I repeat\n');
 
-        currentUser.incrementScore();
+        humanPlayer.incrementScore();
 
         if (GameCanvas.movesLeft == 0) {}
       }

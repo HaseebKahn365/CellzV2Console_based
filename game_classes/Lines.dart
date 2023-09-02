@@ -18,7 +18,7 @@ class Lines {
 
   @override
   String toString() {
-    return 'Line(P1:(${firstPoint.xCord},${firstPoint.yCord}), P2:(${secondPoint.xCord},${secondPoint.yCord}), isPlayer: ${owner.isPlayer}, lineDirection: $lineDirection, isNew: $isNew)';
+    return 'Line(P1:(${firstPoint.xCord},${firstPoint.yCord}), P2:(${secondPoint.xCord},${secondPoint.yCord}), isPlayer: ${owner.isPlayer}, lineDirection: $lineDirection, isNew: $isNew)\n';
   }
 
   @override

@@ -17,7 +17,7 @@ class GameCanvas {
     for (int i = 0; i < xCount; i++) {
       for (int j = 0; j < yCount; j++) {
         allPoints
-            .add(Points(xCord: i, yCord: j)); //i am using the reverse formate because this is how the grid is drawn
+            .add(Points(xCord: j, yCord: i)); //i am using the reverse formate because this is how the grid is drawn
       }
     }
   }
