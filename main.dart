@@ -107,7 +107,10 @@ void main() {
   allLines.add(l3);
   allLines.add(l4);
   //lets print the allLines list
-  print(allLines);
+  // print(allLines);
   //test the checkSquare function
-  checkSquare(l1);
+  // checkSquare(l1);
+
+  checkSquare(
+      l2); //This should now be able to check the square and add it to the list of squares owned by the player because we just properly overloaded the == operator for the Lines class
 }

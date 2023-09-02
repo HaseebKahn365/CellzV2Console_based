@@ -72,6 +72,12 @@ checkSquare(Lines newLine) {
         Square s1 = Square(L1Horiz: newLine, L2Horiz: L3, L1Vert: L1, L2Vert: L2);
         humanPlayer.addSquares(s1);
         print('we have detected a sqaure, I repeat. A square below the newLine\n');
+        //in allLines where the line is equal to newLines set its isNew to false
+        allLines.forEach((element) {
+          if (element == newLine) {
+            element.isNew = false;
+          }
+        });
 
         humanPlayer.incrementScore();
 
@@ -80,6 +86,9 @@ checkSquare(Lines newLine) {
         }
       }
 
+      //checking for the square above the newLine becuase origin point in in the top left corner and y increases downwards
+      print(
+          'checking for the square above the newLine becuase origin point in in the top left corner and y increases downwards\n');
       L1 = Lines(
           firstPoint: Points(xCord: newLine.firstPoint.xCord, yCord: newLine.firstPoint.yCord),
           secondPoint: Points(xCord: newLine.firstPoint.xCord, yCord: newLine.firstPoint.yCord - 1),
@@ -97,6 +106,10 @@ checkSquare(Lines newLine) {
           secondPoint: Points(xCord: newLine.secondPoint.xCord, yCord: newLine.secondPoint.yCord - 1),
           owner: humanPlayer,
           lineDirection: LineDirection.Horiz);
+
+      print('l1 containment check: ${allLines.contains(L1)} and l1: $L1');
+      print('l2 containment check: ${allLines.contains(L2)} and l2: $L2');
+      print('l3 containment check: ${allLines.contains(L3)} and l3: $L3');
 
       if (allLines.contains(L1) && allLines.contains(L2) && allLines.contains(L3)) {
         Square s1 = Square(L1Horiz: newLine, L2Horiz: L3, L1Vert: L1, L2Vert: L2);

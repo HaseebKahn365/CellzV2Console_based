@@ -21,10 +21,14 @@ class Lines {
     return 'Line(P1:(${firstPoint.xCord},${firstPoint.yCord}), P2:(${secondPoint.xCord},${secondPoint.yCord}), isPlayer: ${owner.isPlayer}, lineDirection: $lineDirection, isNew: $isNew)\n';
   }
 
+//There is a major problem with this simple overload becuase it considers the order of the points in the line whereas it should not.
+//to fix this we need to add an extra condition to check if the points are equal or not
   @override
   bool operator ==(Object other) {
     if (other is Lines) {
-      return this.firstPoint == other.firstPoint && this.secondPoint == other.secondPoint;
+      return this.firstPoint == other.firstPoint && this.secondPoint == other.secondPoint ||
+          this.firstPoint == other.secondPoint &&
+              this.secondPoint == other.firstPoint; //hopefully this fixes the problem
     }
     return false;
   }
