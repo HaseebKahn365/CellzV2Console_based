@@ -635,10 +635,18 @@ To make sure that the newline is safe. We need to consider 20 different unsafe s
 2•	if there are two vertical lines already drawn ie. On the right and left of the newLine then the newline drawn above or below these lines is unsafe.
 2•	if there are two horizontal lines already drawn ie. below and above of the newLine then the newline drawn on the right or left of these lines is unsafe.
 The following 8 scenarios are when the boundaries lines of the big square might be drawn and we are trying to draw a line inside it.
-2•	if there are two lines ie the LTL and TTL then the newline drawn on the right or Bottom is unsafe
-2•	if there are two lines ie the TTR and RTR then the newline drawn on the left or Bottom is unsafe
-2•	if there are two lines ie the RBR  and BBR then the newline drawn on the left or Top is unsafe
-2•	if there are two lines ie the BBL and LBL then the newline drawn on the right or Top is unsafe
+2•	if there are two lines ie the LTL and TTL in the allLines then the newline drawn on the right or Bottom is unsafe
+2•	if there are two lines ie the TTR and RTR in the allLines then the newline drawn on the left or Bottom is unsafe
+2•	if there are two lines ie the RBR  and BBR in the allLines then the newline drawn on the left or Top is unsafe
+2•	if there are two lines ie the BBL and LBL in the allLines then the newline drawn on the right or Top is unsafe
+
+The following 8 scenarios are when inner lines of the big square might be drawn and we are trying to draw a line outside it.
+2•	if there are two lines ie the BTL and RTL (inner lines) in the allLines then the newline drawn on the left or Top is unsafe //this is the scenario of the TopLeft square of the big square
+2•	if there are two lines ie the LTR and BTR (inner lines) in the allLines then the newline drawn on the right or Top is unsafe //this is the scenario of the TopRight square of the big square
+2•	if there are two lines ie the TBR and LBR (inner lines) in the allLines then the newline drawn on the left or Bottom is unsafe //this is the scenario of the BottomRight square of the big square
+2•	if there are two lines ie the RBL and TBL (inner lines) in the allLines then the newline drawn on the right or Bottom is unsafe //this is the scenario of the BottomLeft square of the big square
+
+so in total the above 20 scenarios are the unsafe scenarios and we need to make sure that none of these scenarios occur when we are trying to find a safe line. If any of these scenarios occur then we need to find another safe line. If none of these scenarios occur then we can say that the line is safe to draw.
 
 
         
