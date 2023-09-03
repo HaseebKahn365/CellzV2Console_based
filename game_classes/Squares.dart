@@ -1,3 +1,4 @@
+import '../lists_of_objects.dart';
 import 'Lines.dart';
 
 class Square {
@@ -9,7 +10,8 @@ class Square {
 
   @override
   String toString() {
-    return 'Square(L1Horiz: $L1Horiz, L2Horiz: $L2Horiz, L1Vert: $L1Vert, L2Vert: $L2Vert)';
+    //i have to make sure that the lines details below are printed in the form of P1 allPoints[index]-> P2 allPoints[index].
+    return 'Square(L1Horiz: P1 [${allPoints.indexOf(L1Horiz.firstPoint)}]-> P2 [${allPoints.indexOf(L1Horiz.secondPoint)}], L2Horiz: P1 [${allPoints.indexOf(L2Horiz.firstPoint)}]-> P2 [${allPoints.indexOf(L2Horiz.secondPoint)}], L1Vert: P1 [${allPoints.indexOf(L1Vert.firstPoint)}]-> P2 [${allPoints.indexOf(L1Vert.secondPoint)}], L2Vert: P1 [${allPoints.indexOf(L2Vert.firstPoint)}]-> P2 [${allPoints.indexOf(L2Vert.secondPoint)}])\n';
   }
 
   @override

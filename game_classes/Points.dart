@@ -56,7 +56,7 @@ class Points {
 
   @override
   String toString() {
-    return 'Points(xCord: $xCord, yCord: $yCord, isMarked: $isMarked, isDisabled: $isDisabled, isSelected: $isSelected)';
+    return '\nPoints(($xCord, $yCord) isMarked: $isMarked, isDisabled: $isDisabled, isSelected: $isSelected)';
   }
 
   @override

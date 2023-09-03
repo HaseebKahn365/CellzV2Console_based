@@ -160,136 +160,343 @@ usedPoints.add(p2);
 
 Determining the direction of the points connected and creating a line object based on the direction and then add it to the list of allLines:
 List<Lines> allLines = [];
-Lines createLine(Point p1, Point p2){
-If((p2.xCord == p1.xCord+1) || (p2.xCord == p1.xCord-1)  ){ 
- return  Lines( firstPoint: p1, secondPoint: p2, lineDirection: LineDirection.Horiz);
-}
-else if((p2.yCord == p1.yCord+1) || (p2.yCord == p1.yCord-1)  ){ 
- return  Lines( firstPoint: p1, secondPoint: p2, lineDirection: LineDirection.Vert);
-}
-else{
-    return null;
-}
+import '../game_classes.dart';
+import '../lists_of_objects.dart';
+
+//create an instance of humanPlayer:
+final humanPlayer = GamePlayers(isPlayer: true, score: 0, numOfLives: 4, linesDrawn: [], squaresOwned: []);
+
+//global list of pointsUsed
+
+Lines createLine(Points p1, Points p2) {
+  Lines newLine;
+  if (p1.xCord == p2.xCord) {
+    //check in allPoints where a point matches with p2 and mark that point as selected
+    //TODO:set isSelected to false and isMarked to true for the point p1 and p2 if line is valid and not already drawn after the square is checked and formed
+    allPoints.forEach((element) {
+      if (element == p2) {
+        element.isSelected = true;
+      }
+    });
+    //set the newLine's member isNew to true
+    newLine =
+        Lines(firstPoint: p1, secondPoint: p2, owner: humanPlayer, lineDirection: LineDirection.Vert, isNew: true);
+    //add the new line to the list of lines
+    allLines.add(newLine);
+    //also add the new line to the list of lines drawn by the current user
+    humanPlayer.linesDrawn.add(newLine);
+
+    //checking if square has formed:
+    checkSquare(newLine);
+  } else if (p1.yCord == p2.yCord) {
+    //check in allPoints where a point matches with p2 and mark that point as selected
+    allPoints.forEach((element) {
+      if (element == p2) {
+        element.isSelected = true;
+      }
+    });
+    newLine =
+        Lines(firstPoint: p1, secondPoint: p2, owner: humanPlayer, lineDirection: LineDirection.Horiz, isNew: true);
+    //add the new line to the list of lines
+    allLines.add(newLine);
+    //also add the new line to the list of lines drawn by the current user
+    humanPlayer.linesDrawn.add(newLine);
+
+    //checking if square has formed:
+    checkSquare(newLine);
+  } else {
+    throw Exception('Invalid Line');
+  }
+  return newLine;
 }
 
-final newLine = createLine(p1, p2);
-allLines.add(newLine);
+Lines? newLine;
 
-Now we will come to the cool part where we will check for the squares. We first look for the direction of the line that is passed as an argument to checkSquare() function, after wards we will create 3 new lines and if these newly created 3 lines were found in the List 
-We will check for the right and left squares if the line is vertical:
-checkSquare(Lines: newLine){
-switch(newLine.direction){
-case LineDirection.Horiz:
-//check for upper and lower square:
-//Upper Square:
-//L1 is a new line that goes upwards from p1.
-Line L1 = Line( Point(xCord: newLine.firstPoint.xCord, yCord: newLine.firstPoint.yCord), Point(xCord: newLine.firstPoint.xCord, yCord: newLine.firstPoint.yCord +1), owner: currentUser, lineDirection: LineDirection.Vert);
-//L2 is a new line that goes upwards from p2.
-Line L2 = Line( Point(xCord: newLine.secondPoint.xCord, yCord: newLine.secondPoint.yCord), Point(xCord: newLine.secondPoint.xCord, yCord: newLine.secondPoint.yCord +1), owner: currentUser, lineDirection: LineDirection.Vert);
-//L3 is a new line that goes above new line in the same direction as newLine.
-Line L3 = Line( Point(xCord: newLine.firstPoint.xCord, yCord: newLine.firstPoint.yCord+1), Point(xCord: newLine.secondPoint.xCord, yCord: newLine.secondPoint.yCord+1), owner: currentUser, lineDirection: LineDirection.Horiz);
+checkSquare(Lines newLine) {
+  //TODO In the actual game make sure that the newLine doesn't exist in the allLines list before calling this function
+  allLines.add(newLine);
+  switch (newLine.lineDirection) {
+    case LineDirection.Horiz:
 
-//check if L1, L2 and L3 are in the list of allLines: then we have a square with owner as current user.
+      //checking for the square below the newLine becuase origin point in in the top left corner and y increases downwards
+      Lines L1 = Lines(
+          firstPoint: Points(xCord: newLine.firstPoint.xCord, yCord: newLine.firstPoint.yCord),
+          secondPoint: Points(xCord: newLine.firstPoint.xCord, yCord: newLine.firstPoint.yCord + 1),
+          owner: humanPlayer,
+          lineDirection: LineDirection.Vert); //first vertical line
 
-if(allLines.contains(L1) && allLines.contains(L2) && allLines.contains(L3)){
-    //we have a square
-    //create a square object and add it to the list of squares owned by the current user.
-    Square s1 = Square(L1, L2, L3, newLine);
-    currentUser.addSquares(s1);
-    //increment the score of the current user.
-    currentUser.incrementScore();
-    //check if the game is over or not:
-    if(GameCanvas.movesLeft == 0){
-        //game is over
-        //show an alert dialogue box with the title ‘You Won’ and content as the score of the current user and the opponent.
-        //show a button to navigate to the home screen.
+      Lines L2 = Lines(
+          firstPoint: Points(xCord: newLine.secondPoint.xCord, yCord: newLine.secondPoint.yCord),
+          secondPoint: Points(xCord: newLine.secondPoint.xCord, yCord: newLine.secondPoint.yCord + 1),
+          owner: humanPlayer,
+          lineDirection: LineDirection.Vert);
+
+      Lines L3 = Lines(
+          firstPoint: Points(xCord: newLine.firstPoint.xCord, yCord: newLine.firstPoint.yCord + 1),
+          secondPoint: Points(xCord: newLine.secondPoint.xCord, yCord: newLine.secondPoint.yCord + 1),
+          owner: humanPlayer,
+          lineDirection: LineDirection.Horiz);
+
+      if (allLines.contains(L1) && allLines.contains(L2) && allLines.contains(L3)) {
+        Square s1 = Square(L1Horiz: newLine, L2Horiz: L3, L1Vert: L1, L2Vert: L2);
+        humanPlayer.addSquares(s1);
+        print('we have detected a sqaure, I repeat. A square below the newLine\n');
+        //in allLines where the line is equal to newLines set its isNew to false
+        allLines.forEach((element) {
+          if (element == newLine) {
+            element.isNew = false;
+          }
+        });
+
+        humanPlayer.incrementScore();
+
+        if (GameCanvas.movesLeft == 0) {
+          print('out of moves. Game Over');
+        }
+      }
+
+      //checking for the square above the newLine becuase origin point in in the top left corner and y increases downwards
+      // print(
+      //     'checking for the square above the newLine becuase origin point in in the top left corner and y increases downwards\n');
+      L1 = Lines(
+          firstPoint: Points(xCord: newLine.firstPoint.xCord, yCord: newLine.firstPoint.yCord),
+          secondPoint: Points(xCord: newLine.firstPoint.xCord, yCord: newLine.firstPoint.yCord - 1),
+          owner: humanPlayer,
+          lineDirection: LineDirection.Vert);
+
+      L2 = Lines(
+          firstPoint: Points(xCord: newLine.secondPoint.xCord, yCord: newLine.secondPoint.yCord),
+          secondPoint: Points(xCord: newLine.secondPoint.xCord, yCord: newLine.secondPoint.yCord - 1),
+          owner: humanPlayer,
+          lineDirection: LineDirection.Vert);
+
+      L3 = Lines(
+          firstPoint: Points(xCord: newLine.firstPoint.xCord, yCord: newLine.firstPoint.yCord - 1),
+          secondPoint: Points(xCord: newLine.secondPoint.xCord, yCord: newLine.secondPoint.yCord - 1),
+          owner: humanPlayer,
+          lineDirection: LineDirection.Horiz);
+
+      // print('l1 containment check: ${allLines.contains(L1)} and l1: $L1');
+      // print('l2 containment check: ${allLines.contains(L2)} and l2: $L2');
+      // print('l3 containment check: ${allLines.contains(L3)} and l3: $L3');  these return true as these should.
+
+      if (allLines.contains(L1) && allLines.contains(L2) && allLines.contains(L3)) {
+        Square s1 = Square(L1Horiz: newLine, L2Horiz: L3, L1Vert: L1, L2Vert: L2);
+        humanPlayer.addSquares(s1);
+        print('we have detected a sqaure, I repeat. a square above the newLine\n');
+
+        humanPlayer.incrementScore();
+
+        if (GameCanvas.movesLeft == 0) {}
+      }
+
+      break;
+
+    case LineDirection.Vert:
+
+      //checking for the square on the left side of the newLine in the same manner as above
+      Lines L1 = Lines(
+          firstPoint: Points(xCord: newLine.firstPoint.xCord, yCord: newLine.firstPoint.yCord),
+          secondPoint: Points(xCord: newLine.firstPoint.xCord - 1, yCord: newLine.firstPoint.yCord),
+          owner: humanPlayer,
+          lineDirection: LineDirection.Horiz);
+
+      Lines L2 = Lines(
+          firstPoint: Points(xCord: newLine.secondPoint.xCord, yCord: newLine.secondPoint.yCord),
+          secondPoint: Points(xCord: newLine.secondPoint.xCord - 1, yCord: newLine.secondPoint.yCord),
+          owner: humanPlayer,
+          lineDirection: LineDirection.Horiz);
+
+      Lines L3 = Lines(
+          firstPoint: Points(xCord: newLine.firstPoint.xCord - 1, yCord: newLine.firstPoint.yCord),
+          secondPoint: Points(xCord: newLine.secondPoint.xCord - 1, yCord: newLine.secondPoint.yCord),
+          owner: humanPlayer,
+          lineDirection: LineDirection.Vert);
+
+      if (allLines.contains(L1) && allLines.contains(L2) && allLines.contains(L3)) {
+        Square s1 = Square(L1Horiz: L1, L2Horiz: L2, L1Vert: newLine, L2Vert: L3);
+        humanPlayer.addSquares(s1);
+        print('we have detected a sqaure, I repeat. a square on the left side of the newLine\n');
+
+        humanPlayer.incrementScore();
+
+        if (GameCanvas.movesLeft == 0) {}
+      }
+
+      //After checking for the square above, we are going to check for the square on the right side of 	the newLine in 	the same manner as above
+
+      L1 = Lines(
+          firstPoint: Points(xCord: newLine.firstPoint.xCord, yCord: newLine.firstPoint.yCord),
+          secondPoint: Points(xCord: newLine.firstPoint.xCord + 1, yCord: newLine.firstPoint.yCord),
+          owner: humanPlayer,
+          lineDirection: LineDirection.Horiz);
+
+      L2 = Lines(
+          firstPoint: Points(xCord: newLine.secondPoint.xCord, yCord: newLine.secondPoint.yCord),
+          secondPoint: Points(xCord: newLine.secondPoint.xCord + 1, yCord: newLine.secondPoint.yCord),
+          owner: humanPlayer,
+          lineDirection: LineDirection.Horiz);
+
+      L3 = Lines(
+          firstPoint: Points(xCord: newLine.firstPoint.xCord + 1, yCord: newLine.firstPoint.yCord),
+          secondPoint: Points(xCord: newLine.secondPoint.xCord + 1, yCord: newLine.secondPoint.yCord),
+          owner: humanPlayer,
+          lineDirection: LineDirection.Vert);
+
+      if (allLines.contains(L1) && allLines.contains(L2) && allLines.contains(L3)) {
+        Square s1 = Square(L1Horiz: L1, L2Horiz: L2, L1Vert: newLine, L2Vert: L3);
+        humanPlayer.addSquares(s1);
+        print('we have detected a sqaure, I repeat. a square on the right side of the newline\n');
+
+        humanPlayer.incrementScore();
+
+        if (GameCanvas.movesLeft == 0) {}
+      }
+
+      break;
+  }
+}
+
+bool offsetAnalyzer(Offset P1, Offset Q1, Points currentPoint) {
+  //first we need to find the difference between the x-coordinate and y-coordinate of the two offsets
+  //minimum offset coordinate difference is 120
+  //Lets say we have two points P1(x1,y1) and Q1(x2,y2) as two offsets. Then find the difference between x1 and x2 and y1 and y2
+  //making sure that the points of the newline are in the allPoints list Lets do this in the createLine function or even better in the offsetAnalyzer function
+
+  final xDif = (Q1.dx - P1.dx);
+  final yDif = (Q1.dy - P1.dy);
+  //X-major (Horizontal) line
+  if (xDif.abs() > yDif.abs() && xDif.abs() > 120) {
+    //the Line could be in the right or left direction:
+    //FOR RIGHT LINE:
+    if (xDif > 120) {
+      //creating two points for the new line:
+      var point1 = Points(xCord: currentPoint.xCord, yCord: currentPoint.yCord);
+      var point2 = Points(xCord: currentPoint.xCord + 1, yCord: currentPoint.yCord);
+      //if point1 and point2 are in the allPoints list then create a new line
+
+      if (allPoints.contains(point1) && allPoints.contains(point2)) {
+        newLine = createLine(
+          point1,
+          point2,
+        );
+        print('\nHorizontal Right created: $newLine');
+        return true;
+      } else if (!allPoints.contains(point1) || !allPoints.contains(point2)) {
+        print(
+            'point1: $point1 and point2: $point2 are not in the allPoints list and out of bounds. horizontal right line creation failed\n');
+        return false;
+      }
     }
-}
 
-After checking for the square above, we are going to check for the square below the newLine in the same manner as above
-//Lower Square:
-//L1 is a new line that goes downwards from p1.
-L1 = Line( Point(xCord: newLine.firstPoint.xCord, yCord: newLine.firstPoint.yCord), Point(xCord: newLine.firstPoint.xCord, yCord: newLine.firstPoint.yCord -1), owner: currentUser, lineDirection: LineDirection.Vert);
-//L2 is a new line that goes downwards from p2.
-L2 = Line( Point(xCord: newLine.secondPoint.xCord, yCord: newLine.secondPoint.yCord), Point(xCord: newLine.secondPoint.xCord, yCord: newLine.secondPoint.yCord -1), owner: currentUser, lineDirection: LineDirection.Vert);
-//L3 is a new line that goes below new line in the same direction as newLine.
-L3 = Line( Point(xCord: newLine.firstPoint.xCord, yCord: newLine.firstPoint.yCord-1), Point(xCord: newLine.secondPoint.xCord, yCord: newLine.secondPoint.yCord-1), owner: currentUser, lineDirection: LineDirection.Horiz);
-
-//check if L1, L2 and L3 are in the list of allLines: then we have a square with owner as current user.
-
-if(allLines.contains(L1) && allLines.contains(L2) && allLines.contains(L3)){
-    //we have a square
-    //create a square object and add it to the list of squares owned by the current user.
-    Square s1 = Square(L1, L2, L3, newLine);
-    currentUser.addSquares(s1);
-    //increment the score of the current user.
-    currentUser.incrementScore();
-    //check if the game is over or not:
-    if(GameCanvas.movesLeft == 0){
-        //game is over
-        //show an alert dialogue box with the title ‘You Won’ and content as the score of the current user and the opponent.
-        //show a button to navigate to the home screen.
+    //FOR LEFT LINE:
+    else if (xDif < -120) {
+      //creating two points for the new line:
+      var point1 = Points(xCord: currentPoint.xCord, yCord: currentPoint.yCord);
+      var point2 = Points(xCord: currentPoint.xCord - 1, yCord: currentPoint.yCord);
+      if (allPoints.contains(point1) && allPoints.contains(point2)) {
+        newLine = createLine(
+          point1,
+          point2,
+        );
+        print('\nHorizontal Left created: $newLine');
+        return true;
+      } else if (!allPoints.contains(point1) || !allPoints.contains(point2)) {
+        print(
+            'point1: $point1 and point2: $point2 are not in the allPoints list and out of bounds horizontal left line creation failed\n');
+        return false;
+      }
+      // print('Horizontal Left created: $newLine');
+      // //add the new line to the allLines list if it does not already exists there:
+      // if (!allLines.contains(newLine)) {
+      //   allLines.add(newLine);
+      //   //checking if square has formed:
+      //   checkSquare(newLine!);
+      // }
+      // //print the list of allLines:
+      // print('allLines: $allLines'); we need to do all this in the createLine function
     }
-}
+  }
+  //Y-major (Vertical) line
+  else if (yDif.abs() > xDif.abs() && yDif.abs() > 120) {
+    //the Line could be in the up or down direction:
+    //FOR Down LINE:
+    //we need to be careful here because when we drag from top to bottom the offset.dy increases which means we have to create a newLine under the following conditions:
+    if (yDif > 120) {
+      var point1 = Points(xCord: currentPoint.xCord, yCord: currentPoint.yCord);
+      var point2 = Points(xCord: currentPoint.xCord, yCord: currentPoint.yCord + 1);
 
-break;
+      if (allPoints.contains(point1) && allPoints.contains(point2)) {
+        newLine = createLine(
+          point1,
+          point2,
+        );
+        print('\nVertical Down created: $newLine');
+        return true;
+      } else if (!allPoints.contains(point1) || !allPoints.contains(point2)) {
+        print(
+            'point1: $point1 and point2: $point2 are not in the allPoints list and out of bounds vertical down line creation failed\n');
+        return false;
+      }
 
-Now its time to check if the line is vertical then we will check the squares on the left and right side of the newLine:
-case LineDirection.Vert:
-//check for left and right square:
-//Left Square:
-//L1 is a new line that goes left from p1.
-Line L1 = Line( Point(xCord: newLine.firstPoint.xCord, yCord: newLine.firstPoint.yCord), Point(xCord: newLine.firstPoint.xCord-1, yCord: newLine.firstPoint.yCord), owner: currentUser, lineDirection: LineDirection.Horiz);
-//L2 is a new line that goes left from p2.
-Line L2 = Line( Point(xCord: newLine.secondPoint.xCord, yCord: newLine.secondPoint.yCord), Point(xCord: newLine.secondPoint.xCord-1, yCord: newLine.secondPoint.yCord), owner: currentUser, lineDirection: LineDirection.Horiz);
-//L3 is a new line that goes left of new line in the same direction as newLine.
-Line L3 = Line( Point(xCord: newLine.firstPoint.xCord-1, yCord: newLine.firstPoint.yCord), Point(xCord: newLine.secondPoint.xCord-1, yCord: newLine.secondPoint.yCord), owner: currentUser, lineDirection: LineDirection.Vert);
+      // print('Vertical Down created: $newLine');
 
-//check if L1, L2 and L3 are in the list of allLines: then we have a square with owner as current user.
-
-if(allLines.contains(L1) && allLines.contains(L2) && allLines.contains(L3)){
-    //we have a square
-    //create a square object and add it to the list of squares owned by the current user.
-    Square s1 = Square(L1, L2, L3, newLine);
-    currentUser.addSquares(s1);
-    //increment the score of the current user.
-    currentUser.incrementScore();
-    //check if the game is over or not:
-    if(GameCanvas.movesLeft == 0){
-        //game is over
-        //show an alert dialogue box with the title ‘You Won’ and content as the score of the current user and the opponent.
-        //show a button to navigate to the home screen.
+      // //add the new line to the allLines list if it does not already exists there:
+      // if (!allLines.contains(newLine)) {
+      //   allLines.add(newLine);
+      //   //checking if square has formed:
+      //   checkSquare(newLine!);
+      // }
+      // //print the list of allLines:
+      // print('allLines: $allLines');
     }
-}
+    //FOR UP LINE:
+    else if (yDif < -120) {
+      var point1 = Points(xCord: currentPoint.xCord, yCord: currentPoint.yCord);
+      var point2 = Points(xCord: currentPoint.xCord, yCord: currentPoint.yCord - 1);
+      newLine = createLine(
+        point1,
+        point2,
+      );
 
-	After checking for the square above, we are going to check for the square on the right side of 	the newLine in 	the same manner as above
-//Right Square:
-//L1 is a new line that goes right from p1.
-L1 = Line( Point(xCord: newLine.firstPoint.xCord, yCord: newLine.firstPoint.yCord), Point(xCord: newLine.firstPoint.xCord+1, yCord: newLine.firs tPoint.yCord), owner: currentUser, lineDirection: LineDirection.Horiz);
-//L2 is a new line that goes right from p2.
-L2 = Line( Point(xCord: newLine.secondPoint.xCord, yCord: newLine.secondPoint.yCord), Point(xCord: newLine.secondPoint.xCord+1, yCord: newLine.secondPoint.yCord), owner: currentUser, lineDirection: LineDirection.Horiz);
-//L3 is a new line that goes right of new line in the same direction as newLine.
-L3 = Line( Point(xCord: newLine.firstPoint.xCord+1, yCord: newLine.firstPoint.yCord), Point(xCord: newLine.secondPoint.xCord+1, yCord: newLine.secondPoint.yCord), owner: currentUser, lineDirection: LineDirection.Vert);
-
-//check if L1, L2 and L3 are in the list of allLines: then we have a square with owner as current user.
-
-if(allLines.contains(L1) && allLines.contains(L2) && allLines.contains(L3)){
-    //we have a square
-    //create a square object and add it to the list of squares owned by the current user.
-    Square s1 = Square(L1, L2, L3, newLine);
-    currentUser.addSquares(s1);
-    //increment the score of the current user.
-    currentUser.incrementScore();
-    //check if the game is over or not:
-    if(GameCanvas.movesLeft == 0){
-        //game is over
-        //show an alert dialogue box with the title ‘You Won’ and content as the score of the current user and the opponent.
-        //show a button to navigate to the home screen.
+      if (allPoints.contains(point1) && allPoints.contains(point2)) {
+        newLine = createLine(
+          point1,
+          point2,
+        );
+        print('\nVertical Up created: $newLine');
+        return true;
+      } else if (!allPoints.contains(point1) || !allPoints.contains(point2)) {
+        print(
+            'point1: $point1 and point2: $point2 are not in the allPoints list and out of bounds vertical up line creation failed\n');
+        return false;
+      }
+      //   print('Vertical Up created: $newLine');
+      //   //add the new line to the allLines list if it does not already exists there:
+      //   if (!allLines.contains(newLine)) {
+      //     allLines.add(newLine);
+      //     //checking if square has formed:
+      //     checkSquare(newLine!);
+      //   }
+      //   //print the list of allLines:
+      //   print('allLines: $allLines');
+      // }
+    } else {
+      //make the selected p1 unselected
+      //use the returned false to make the line unselected
+      return false;
     }
+  }
+  return false;
 }
 
-break;
-}
+//create a fake offset class that only has the essential components to test the above code:
+
+class Offset {
+  final double dx;
+  final double dy;
+
+  Offset({required this.dx, required this.dy});
 }
 
 Phases of development:
@@ -300,4 +507,99 @@ Phases of development:
 * Integrate a full game loop from start to finish for GUI based Cellz game.
 
 
+Here is a complete description of the global functions and classes that we have created so far:
+Global functions:
 
+
+bool offsetAnalyzer(Offset P1, Offset Q1, Points currentPoint):
+this is a function that returns a boolean value of true when a line is created and false when a line is not created. This function takes three arguments:
+1.	Offset P1: this is the offset of the first point of the line that is being created.
+2.	Offset Q1: this is the offset of the second point of the line that is being created.
+3.	Points currentPoint: this is the current point that is being selected by the user.
+
+how the offsetAnalyzer works?
+The offsetAnalyzer function first checks if the line is horizontal or vertical. If the line is horizontal then it checks if the line is in the right direction or left direction. 
+ If the line is in the right direction or down direction then it creates a new line and returns true.
+ otherwise, it does not create a new line and returns false.
+ if (allPoints.contains(point1) && allPoints.contains(point2)) {
+        newLine = createLine(
+          point1,
+          point2,
+        ); //gives a call to the createLine function
+        print('\nHorizontal Right created: $newLine');
+        return true;
+      } else if (!allPoints.contains(point1) || !allPoints.contains(point2)) {
+        print(
+            'point1: $point1 and point2: $point2 are not in the allPoints list and out of bounds. horizontal right line creation failed\n');
+        return false;
+      }
+      
+      Example output:
+      Points((0, 0) isMarked: false, isDisabled: false, isSelected: false) and point2:
+Points((0, -1) isMarked: false, isDisabled: false, isSelected: false) are not in the allPoints list and out of bounds vertical up line creation failed
+
+
+Vertical Up created: Line(P1:(0,1), P2:(0,0), isPlayer: true, lineDirection: LineDirection.Vert, isNew: true)
+    
+
+If the line is vertical then it checks if the line is in the up direction or down direction.
+  If the line is in the left direction or up direction then it does not create a new line and returns false.
+    otherwise, it creates a new line and returns true.
+
+    the expected output is similar to above.
+
+
+Lines createLine(Points p1, Points p2):
+This function takes two arguments of type Points and returns a Line object. This function is used to create a new line object. This function first checks if the line is horizontal or vertical. 
+If the line is horizontal then it checks if the line is in the right direction or left direction. 
+ Lines newLine;
+  if (p1.xCord == p2.xCord) {
+    //check in allPoints where a point matches with p2 and mark that point as selected
+    //TODO:set isSelected to false and isMarked to true for the point p1 and p2 if line is valid and not already drawn after the square is checked and formed
+    allPoints.forEach((element) {
+      if (element == p2) {
+        element.isSelected = true;
+      }
+    });
+    //set the newLine's member isNew to true
+    newLine =
+        Lines(firstPoint: p1, secondPoint: p2, owner: humanPlayer, lineDirection: LineDirection.Vert, isNew: true);
+    //add the new line to the list of lines
+    allLines.add(newLine);
+    //also add the new line to the list of lines drawn by the current user
+    humanPlayer.linesDrawn.add(newLine);
+
+    //checking if square has formed:
+    checkSquare(newLine);
+
+After checking if the line is horizontal or vertical it does the following things:
+ newLine =
+        Lines(firstPoint: p1, secondPoint: p2, owner: humanPlayer, lineDirection: LineDirection.Vert, isNew: true);
+    //add the new line to the list of lines
+    allLines.add(newLine);
+    //also add the new line to the list of lines drawn by the current user
+    humanPlayer.linesDrawn.add(newLine);
+
+    //checking if square has formed:
+    checkSquare(newLine);
+
+
+void checkSquare(Lines newLine):
+This function takes a Line object as an argument and checks if a square has formed or not. This function first checks if the line is horizontal or vertical.
+ after checking for appropriate square, it does the following
+   Square s1 = Square(L1Horiz: newLine, L2Horiz: L3, L1Vert: L1, L2Vert: L2);
+            humanPlayer.addSquares(s1);
+            print('we have detected a sqaure, I repeat. A square below the newLine\n');
+            //in allLines where the line is equal to newLines set its isNew to false
+            allLines.forEach((element) {
+            if (element == newLine) {
+                element.isNew = false;
+            }
+            });
+    
+            humanPlayer.incrementScore();
+    
+            if (GameCanvas.movesLeft == 0) {
+            print('out of moves. Game Over');
+            }
+        }

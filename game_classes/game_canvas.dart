@@ -16,8 +16,7 @@ class GameCanvas {
   static void createDots(int xCount, int yCount) {
     for (int i = 0; i < xCount; i++) {
       for (int j = 0; j < yCount; j++) {
-        allPoints
-            .add(Points(xCord: j, yCord: i)); //i am using the reverse formate because this is how the grid is drawn
+        allPoints.add(Points(xCord: j, yCord: i)); //i am using the reverse because the y axis is inverted in the game.
       }
     }
   }
@@ -39,40 +38,40 @@ class GameCanvas {
       case 2:
         numOfXPoints = 4;
         numOfYPoints = 5;
-        createDots(numOfXPoints, numOfYPoints);
+        createDots(numOfYPoints, numOfXPoints);
         calculateMovesLeft();
         break;
       case 3:
         numOfXPoints = 5;
         numOfYPoints = 6;
-        createDots(numOfXPoints, numOfYPoints);
+        createDots(numOfYPoints, numOfXPoints);
         calculateMovesLeft();
         break;
       case 4:
         numOfXPoints = 6;
         numOfYPoints = 7;
-        createDots(numOfXPoints, numOfYPoints);
+        createDots(numOfYPoints, numOfXPoints);
         calculateMovesLeft();
 
         break;
       case 5:
         numOfXPoints = 7;
         numOfYPoints = 8;
-        createDots(numOfXPoints, numOfYPoints);
+        createDots(numOfYPoints, numOfXPoints);
         calculateMovesLeft();
 
         break;
       case 6:
         numOfXPoints = 8;
         numOfYPoints = 9;
-        createDots(numOfXPoints, numOfYPoints);
+        createDots(numOfYPoints, numOfXPoints);
         calculateMovesLeft();
 
         break;
       case 7:
         numOfXPoints = 9;
         numOfYPoints = 10;
-        createDots(numOfXPoints, numOfYPoints);
+        createDots(numOfYPoints, numOfXPoints);
         calculateMovesLeft();
 
         break;
@@ -83,14 +82,14 @@ class GameCanvas {
       case 9:
         numOfXPoints = 11;
         numOfYPoints = 12;
-        createDots(numOfXPoints, numOfYPoints);
+        createDots(numOfYPoints, numOfXPoints);
         calculateMovesLeft();
 
         break;
       case 10:
         numOfXPoints = 12;
         numOfYPoints = 13;
-        createDots(numOfXPoints, numOfYPoints);
+        createDots(numOfYPoints, numOfXPoints);
         calculateMovesLeft();
 
         break;
