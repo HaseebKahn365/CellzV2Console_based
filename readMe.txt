@@ -603,3 +603,42 @@ This function takes a Line object as an argument and checks if a square has form
             print('out of moves. Game Over');
             }
         }
+
+
+
+Now we are gonna find a safe line: A safe line is a line in the game which can be drawn so that the apponent doesn’t get a chance to own a square. There are many safeLines in the beginning of the game but as the game progresses, the newLines will have a greater tendency to form a square and it becomes kinda’ hard to find a safeLine in the game. Therefore, the following rules will help us determine where in the game a safeLine might be present.
+Lets consider a square that is formed by four sub-squares and 9 dots. We will be refering to the squares and lines of this giant square in the following terms:
+The four sub-squares that form the square of 9 dots are named as top-right aka TR, top-left aka TL, bottom-right aka BR, bottom-left aka BL. These squares are form from four lines ie. Top, bottom, right and left. Altogether  the naming should be as follows:
+(going around from top-left to top-right to bottom-right to bottom-left)
+•	for the top line in the Top left square the line name is TTL
+•	for the left line in the Top left square the line name is LTL
+•	for the bottom line in the Top left square the line name is BTL
+•	for the right line in the Top left square the line name is RTL
+
+
+•	for the top line in the Top right square the line name is TTR
+•	for the left line in the Top right square the line name is LTR
+•	for the bottom line in the Top right square the line name is BTR
+•	for the right line in the Top right square the line name is RTR
+
+•	for the top line in the Bottom right square the line name is TBR
+•	for the left line in the Bottom right square the line name is LBR
+•	for the bottom line in the Bottom right square the line name is BBR
+•	for the right line in the Bottom right square the line name is RBR
+
+•	for the top line in the Bottom left square the line name is TBL
+•	for the left line in the Bottom left square the line name is LBL
+•	for the bottom line in the Bottom left square the line name is BBL
+•	for the right line in the Bottom left square the line name is RBL
+
+To make sure that the newline is safe. We need to consider 20 different unsafe scenarios and make sure that none of these scenarios occur so that we can find a safe line. 4 of these scenarios are a bit different from the other 16. Following are the scenarios:
+2•	if there are two vertical lines already drawn ie. On the right and left of the newLine then the newline drawn above or below these lines is unsafe.
+2•	if there are two horizontal lines already drawn ie. below and above of the newLine then the newline drawn on the right or left of these lines is unsafe.
+The following 8 scenarios are when the boundaries lines of the big square might be drawn and we are trying to draw a line inside it.
+2•	if there are two lines ie the LTL and TTL then the newline drawn on the right or Bottom is unsafe
+2•	if there are two lines ie the TTR and RTR then the newline drawn on the left or Bottom is unsafe
+2•	if there are two lines ie the RBR  and BBR then the newline drawn on the left or Top is unsafe
+2•	if there are two lines ie the BBL and LBL then the newline drawn on the right or Top is unsafe
+
+
+        
