@@ -1,5 +1,6 @@
 import 'game_classes.dart';
 
+import 'global_functions/aiFunction.dart';
 import 'global_functions/create_line_checkSq.dart';
 import 'lists_of_objects.dart';
 
@@ -23,7 +24,12 @@ void main() {
   GamePlayers aiPlayer = GamePlayers(isPlayer: false, score: 0, numOfLives: 4, linesDrawn: [], squaresOwned: []);
   aiPlayer.hasTurn = false;
   //tests passed for GamePlayers class
+
+  //Testing aiFunction
+  aiFunction();
 }
+
+
 
 
 
