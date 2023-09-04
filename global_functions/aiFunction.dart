@@ -79,9 +79,10 @@ bool isSafeLine(Lines line) {
 
 // so in total the above 20 scenarios are the unsafe scenarios and we need to make sure that none of these scenarios occur when we are trying to find a safe line. If any of these scenarios occur then we need to find another safe line. If none of these scenarios occur then we can say that the line is safe to draw.
 //list of first four scenarios ie. the two parallel vertical lines and two parallel horizontal lines will be checked in the following code
+//the firstTwoScenarios are testing only if the current line is a horizontal line
 
-  bool isSafeFirstTwo = firstTwoScenarios(currentLine);
-  bool isSafeSecondTwo = secondTwoScenarios(currentLine);
+  bool isSafeFirstTwo = (currentLine.lineDirection == LineDirection.Horiz) ? firstTwoScenarios(currentLine) : true;
+  bool isSafeSecondTwo = (currentLine.lineDirection == LineDirection.Vert) ? secondTwoScenarios(currentLine) : true;
 
   bool isSafeFirstEight = firstEightScenarios(currentLine);
   bool isSafeSecondEight = secondEightScenarios(currentLine);
@@ -90,6 +91,8 @@ bool isSafeLine(Lines line) {
 bool firstTwoScenarios(Lines line) {
   //lets say that the point1 is the left point and point2 is the right point.
   //we gotta make sure that there are no vertical lines on the left and right of the currentLine'S left point and right point respectively
+
+  //
 
   Points leftPoint = line.firstPoint;
   Points rightPoint = line.secondPoint;
@@ -195,21 +198,28 @@ bool firstEightScenarios(Lines line) {
   Points rightPoint = line.secondPoint;
 
   //defining LTL from the leftPoint
-  Lines LTL = Lines(
-      firstPoint: leftPoint,
-      secondPoint: Points(xCord: leftPoint.xCord, yCord: leftPoint.yCord - 1),
-      owner: humanPlayer,
-      lineDirection: LineDirection.Vert);
+  //Only check it if the line is horizontal
 
-  //defining TTL from leftPoint and rightPoint
-  Lines TTL = Lines(
-      firstPoint: leftPoint,
-      secondPoint: Points(xCord: leftPoint.xCord - 1, yCord: rightPoint.yCord),
-      owner: humanPlayer,
-      lineDirection: LineDirection.Horiz);
+  Lines LTL;
+  Lines TTL;
 
-  if (allLines.contains(LTL) && allLines.contains(TTL)) {
-    return false;
+  if (line.lineDirection == LineDirection.Horiz) {
+    Lines LTL = Lines(
+        firstPoint: leftPoint,
+        secondPoint: Points(xCord: leftPoint.xCord, yCord: leftPoint.yCord - 1),
+        owner: humanPlayer,
+        lineDirection: LineDirection.Vert);
+
+    //defining TTL from leftPoint and rightPoint
+    Lines TTL = Lines(
+        firstPoint: leftPoint,
+        secondPoint: Points(xCord: leftPoint.xCord - 1, yCord: rightPoint.yCord),
+        owner: humanPlayer,
+        lineDirection: LineDirection.Horiz);
+
+    if (allLines.contains(LTL) && allLines.contains(TTL)) {
+      return false;
+    }
   }
 
 //let the recieved line be the RTL then we need to check again if the LTL and TTL lines are drawn or not
@@ -218,21 +228,25 @@ bool firstEightScenarios(Lines line) {
   Points lowerPoint = line.secondPoint;
 
   //defining LTL from the upperPoint
-  LTL = Lines(
-      firstPoint: Points(xCord: upperPoint.xCord - 1, yCord: upperPoint.yCord),
-      secondPoint: Points(xCord: lowerPoint.xCord - 1, yCord: lowerPoint.yCord),
-      owner: humanPlayer,
-      lineDirection: LineDirection.Vert);
+  //only check it if the line is vertical
 
-  //defining TTL from upperPoint and lowerPoint
-  TTL = Lines(
-      firstPoint: upperPoint,
-      secondPoint: Points(xCord: upperPoint.xCord - 1, yCord: upperPoint.yCord),
-      owner: humanPlayer,
-      lineDirection: LineDirection.Horiz);
+  if (line.lineDirection == LineDirection.Vert) {
+    LTL = Lines(
+        firstPoint: Points(xCord: upperPoint.xCord - 1, yCord: upperPoint.yCord),
+        secondPoint: Points(xCord: lowerPoint.xCord - 1, yCord: lowerPoint.yCord),
+        owner: humanPlayer,
+        lineDirection: LineDirection.Vert);
 
-  if (allLines.contains(LTL) && allLines.contains(TTL)) {
-    return false;
+    //defining TTL from upperPoint and lowerPoint
+    TTL = Lines(
+        firstPoint: upperPoint,
+        secondPoint: Points(xCord: upperPoint.xCord - 1, yCord: upperPoint.yCord),
+        owner: humanPlayer,
+        lineDirection: LineDirection.Horiz);
+
+    if (allLines.contains(LTL) && allLines.contains(TTL)) {
+      return false;
+    }
   }
 
 //let the received line be the BTR line then we need to check if the TTR and RTR lines are drawn or not //TODO: check this code
