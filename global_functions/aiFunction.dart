@@ -86,6 +86,12 @@ bool isSafeLine(Lines line) {
 
   bool isSafeFirstEight = firstEightScenarios(currentLine);
   bool isSafeSecondEight = secondEightScenarios(currentLine);
+
+  if (isSafeFirstTwo && isSafeSecondTwo && isSafeFirstEight && isSafeSecondEight) {
+    return true;
+  } else {
+    return false;
+  }
 }
 
 bool firstTwoScenarios(Lines line) {
@@ -255,21 +261,27 @@ bool firstEightScenarios(Lines line) {
   rightPoint = line.secondPoint;
 
   //defining TTR from the rightPoint
-  Lines TTR = Lines(
-      firstPoint: rightPoint,
-      secondPoint: Points(xCord: rightPoint.xCord, yCord: rightPoint.yCord - 1),
-      owner: humanPlayer,
-      lineDirection: LineDirection.Vert);
 
-  //defining RTR from leftPoint and rightPoint
-  Lines RTR = Lines(
-      firstPoint: leftPoint,
-      secondPoint: Points(xCord: rightPoint.xCord + 1, yCord: rightPoint.yCord),
-      owner: humanPlayer,
-      lineDirection: LineDirection.Horiz);
+  Lines TTR;
+  Lines RTR;
 
-  if (allLines.contains(TTR) && allLines.contains(RTR)) {
-    return false;
+  if (line.lineDirection == LineDirection.Horiz) {
+    TTR = Lines(
+        firstPoint: rightPoint,
+        secondPoint: Points(xCord: rightPoint.xCord, yCord: rightPoint.yCord - 1),
+        owner: humanPlayer,
+        lineDirection: LineDirection.Vert);
+
+    //defining RTR from leftPoint and rightPoint
+    RTR = Lines(
+        firstPoint: leftPoint,
+        secondPoint: Points(xCord: rightPoint.xCord + 1, yCord: rightPoint.yCord),
+        owner: humanPlayer,
+        lineDirection: LineDirection.Horiz);
+
+    if (allLines.contains(TTR) && allLines.contains(RTR)) {
+      return false;
+    }
   }
 
   //let the recieved line be the LTR then we need to check again if the TTR and RTR lines are drawn or not
@@ -278,44 +290,51 @@ bool firstEightScenarios(Lines line) {
   lowerPoint = line.secondPoint;
 
   //defining TTR from the upperPoint
-  TTR = Lines(
-      firstPoint: Points(xCord: upperPoint.xCord + 1, yCord: upperPoint.yCord),
-      secondPoint: Points(xCord: lowerPoint.xCord + 1, yCord: lowerPoint.yCord),
-      owner: humanPlayer,
-      lineDirection: LineDirection.Vert);
 
-  //defining RTR from upperPoint and lowerPoint
-  RTR = Lines(
-      firstPoint: upperPoint,
-      secondPoint: Points(xCord: upperPoint.xCord + 1, yCord: upperPoint.yCord),
-      owner: humanPlayer,
-      lineDirection: LineDirection.Horiz);
+  if (line.lineDirection == LineDirection.Vert) {
+    TTR = Lines(
+        firstPoint: Points(xCord: upperPoint.xCord + 1, yCord: upperPoint.yCord),
+        secondPoint: Points(xCord: lowerPoint.xCord + 1, yCord: lowerPoint.yCord),
+        owner: humanPlayer,
+        lineDirection: LineDirection.Vert);
 
-  if (allLines.contains(TTR) && allLines.contains(RTR)) {
-    return false;
+    //defining RTR from upperPoint and lowerPoint
+    RTR = Lines(
+        firstPoint: upperPoint,
+        secondPoint: Points(xCord: upperPoint.xCord + 1, yCord: upperPoint.yCord),
+        owner: humanPlayer,
+        lineDirection: LineDirection.Horiz);
+
+    if (allLines.contains(TTR) && allLines.contains(RTR)) {
+      return false;
+    }
   }
 
 //let the received line be the LBR line then we need to check if the RBR and BBR lines are drawn or not //TODO: check this code
 
   leftPoint = line.firstPoint;
   rightPoint = line.secondPoint;
+  Lines RBR;
+  Lines BBR;
 
   //defining RBR from the rightPoint
-  Lines RBR = Lines(
-      firstPoint: rightPoint,
-      secondPoint: Points(xCord: rightPoint.xCord, yCord: rightPoint.yCord + 1),
-      owner: humanPlayer,
-      lineDirection: LineDirection.Vert);
+  if (line.lineDirection == LineDirection.Vert) {
+    RBR = Lines(
+        firstPoint: rightPoint,
+        secondPoint: Points(xCord: rightPoint.xCord, yCord: rightPoint.yCord + 1),
+        owner: humanPlayer,
+        lineDirection: LineDirection.Vert);
 
-  //defining BBR from leftPoint and rightPoint
-  Lines BBR = Lines(
-      firstPoint: leftPoint,
-      secondPoint: Points(xCord: rightPoint.xCord - 1, yCord: rightPoint.yCord),
-      owner: humanPlayer,
-      lineDirection: LineDirection.Horiz);
+    //defining BBR from leftPoint and rightPoint
+    BBR = Lines(
+        firstPoint: leftPoint,
+        secondPoint: Points(xCord: rightPoint.xCord - 1, yCord: rightPoint.yCord),
+        owner: humanPlayer,
+        lineDirection: LineDirection.Horiz);
 
-  if (allLines.contains(RBR) && allLines.contains(BBR)) {
-    return false;
+    if (allLines.contains(RBR) && allLines.contains(BBR)) {
+      return false;
+    }
   }
 
   //let the recieved line be the TBR then we need to check again if the RBR and BBR lines are drawn or not
@@ -324,45 +343,51 @@ bool firstEightScenarios(Lines line) {
   lowerPoint = line.secondPoint;
 
   //defining RBR from the lowerPoint
-  RBR = Lines(
-      firstPoint: Points(xCord: lowerPoint.xCord - 1, yCord: lowerPoint.yCord),
-      secondPoint: Points(xCord: lowerPoint.xCord - 1, yCord: lowerPoint.yCord),
-      owner: humanPlayer,
-      lineDirection: LineDirection.Vert);
+  if (line.lineDirection == LineDirection.Horiz) {
+    RBR = Lines(
+        firstPoint: Points(xCord: lowerPoint.xCord - 1, yCord: lowerPoint.yCord),
+        secondPoint: Points(xCord: lowerPoint.xCord - 1, yCord: lowerPoint.yCord),
+        owner: humanPlayer,
+        lineDirection: LineDirection.Vert);
 
-  //defining BBR from upperPoint and lowerPoint
-  BBR = Lines(
-      firstPoint: upperPoint,
-      secondPoint: Points(xCord: upperPoint.xCord - 1, yCord: upperPoint.yCord),
-      owner: humanPlayer,
-      lineDirection: LineDirection.Horiz);
+    //defining BBR from upperPoint and lowerPoint
+    BBR = Lines(
+        firstPoint: upperPoint,
+        secondPoint: Points(xCord: upperPoint.xCord - 1, yCord: upperPoint.yCord),
+        owner: humanPlayer,
+        lineDirection: LineDirection.Horiz);
 
-  if (allLines.contains(RBR) && allLines.contains(BBR)) {
-    return false;
+    if (allLines.contains(RBR) && allLines.contains(BBR)) {
+      return false;
+    }
   }
 
-  //let the received line be the TBL line then we need to check if the BBL and LBL lines are drawn or not //TODO: check this code
+  //let the received line be the TBL line then we need to check if the BBL and LBL lines are drawn or not
 
   leftPoint = line.firstPoint;
   rightPoint = line.secondPoint;
 
   //defining BBL from the leftPoint
+  Lines BBL;
+  Lines LBL;
 
-  Lines BBL = Lines(
-      firstPoint: leftPoint,
-      secondPoint: Points(xCord: leftPoint.xCord, yCord: leftPoint.yCord + 1),
-      owner: humanPlayer,
-      lineDirection: LineDirection.Vert);
+  if (line.lineDirection == LineDirection.Horiz) {
+    BBL = Lines(
+        firstPoint: Points(xCord: leftPoint.xCord, yCord: leftPoint.yCord + 1),
+        secondPoint: Points(xCord: rightPoint.xCord, yCord: rightPoint.yCord + 1),
+        owner: humanPlayer,
+        lineDirection: LineDirection.Vert);
 
-  //defining LBL from leftPoint and rightPoint
-  Lines LBL = Lines(
-      firstPoint: leftPoint,
-      secondPoint: Points(xCord: leftPoint.xCord - 1, yCord: leftPoint.yCord),
-      owner: humanPlayer,
-      lineDirection: LineDirection.Horiz);
+    //defining LBL from leftPoint and rightPoint
+    LBL = Lines(
+        firstPoint: leftPoint,
+        secondPoint: Points(xCord: leftPoint.xCord, yCord: leftPoint.yCord + 1),
+        owner: humanPlayer,
+        lineDirection: LineDirection.Horiz);
 
-  if (allLines.contains(BBL) && allLines.contains(LBL)) {
-    return false;
+    if (allLines.contains(BBL) && allLines.contains(LBL)) {
+      return false;
+    }
   }
 
   //let the recieved line be the RBL then we need to check again if the BBL and LBL lines are drawn or not
@@ -371,27 +396,28 @@ bool firstEightScenarios(Lines line) {
   lowerPoint = line.secondPoint;
 
   //defining BBL from the lowerPoint
-  BBL = Lines(
-      firstPoint: Points(xCord: lowerPoint.xCord - 1, yCord: lowerPoint.yCord),
-      secondPoint: Points(xCord: lowerPoint.xCord - 1, yCord: lowerPoint.yCord),
-      owner: humanPlayer,
-      lineDirection: LineDirection.Vert);
+  if (line.lineDirection == LineDirection.Vert) {
+    BBL = Lines(
+        firstPoint: Points(xCord: lowerPoint.xCord - 1, yCord: lowerPoint.yCord),
+        secondPoint: Points(xCord: lowerPoint.xCord - 1, yCord: lowerPoint.yCord),
+        owner: humanPlayer,
+        lineDirection: LineDirection.Vert);
 
-  //defining LBL from upperPoint and lowerPoint
-  LBL = Lines(
-      firstPoint: upperPoint,
-      secondPoint: Points(xCord: upperPoint.xCord - 1, yCord: upperPoint.yCord),
-      owner: humanPlayer,
-      lineDirection: LineDirection.Horiz);
+    //defining LBL from upperPoint and lowerPoint
+    LBL = Lines(
+        firstPoint: upperPoint,
+        secondPoint: Points(xCord: upperPoint.xCord - 1, yCord: upperPoint.yCord),
+        owner: humanPlayer,
+        lineDirection: LineDirection.Horiz);
 
-  if (allLines.contains(BBL) && allLines.contains(LBL)) {
-    return false;
+    if (allLines.contains(BBL) && allLines.contains(LBL)) {
+      return false;
+    }
   }
 
   //now we have checked all the 8 scenarios and we can say that the line is safe to draw
-  else {
-    return true;
-  }
+
+  return true;
 }
 
 bool secondEightScenarios(Lines line) {
@@ -406,22 +432,27 @@ bool secondEightScenarios(Lines line) {
 
 //defining BTL from the lowerPoint
 
-  Lines BTL = Lines(
-      firstPoint: lowerPoint,
-      secondPoint: Points(xCord: lowerPoint.xCord + 1, yCord: lowerPoint.yCord),
-      owner: humanPlayer,
-      lineDirection: LineDirection.Horiz);
+  Lines BTL;
+  Lines RTL;
+
+  if (line.lineDirection == LineDirection.Vert) {
+    BTL = Lines(
+        firstPoint: lowerPoint,
+        secondPoint: Points(xCord: lowerPoint.xCord + 1, yCord: lowerPoint.yCord),
+        owner: humanPlayer,
+        lineDirection: LineDirection.Horiz);
 
 //defining RTL from upperPoint and lowerPoint
 
-  Lines RTL = Lines(
-      firstPoint: Points(xCord: upperPoint.xCord + 1, yCord: upperPoint.yCord),
-      secondPoint: Points(xCord: lowerPoint.xCord + 1, yCord: lowerPoint.yCord),
-      owner: humanPlayer,
-      lineDirection: LineDirection.Vert);
+    RTL = Lines(
+        firstPoint: Points(xCord: upperPoint.xCord + 1, yCord: upperPoint.yCord),
+        secondPoint: Points(xCord: lowerPoint.xCord + 1, yCord: lowerPoint.yCord),
+        owner: humanPlayer,
+        lineDirection: LineDirection.Vert);
 
-  if (allLines.contains(BTL) && allLines.contains(RTL)) {
-    return false;
+    if (allLines.contains(BTL) && allLines.contains(RTL)) {
+      return false;
+    }
   }
 
 //let the recieved line be the TTL then we need to check again if the BTL and RTL lines are drawn or not
@@ -431,46 +462,52 @@ bool secondEightScenarios(Lines line) {
 
 //defining RTL from the rightPoint
 
-  RTL = Lines(
-      firstPoint: rightPoint,
-      secondPoint: Points(xCord: rightPoint.xCord, yCord: rightPoint.yCord - 1),
-      owner: humanPlayer,
-      lineDirection: LineDirection.Vert);
+  if (line.lineDirection == LineDirection.Horiz) {
+    RTL = Lines(
+        firstPoint: rightPoint,
+        secondPoint: Points(xCord: rightPoint.xCord, yCord: rightPoint.yCord - 1),
+        owner: humanPlayer,
+        lineDirection: LineDirection.Vert);
 
 //defining BTL from leftPoint and rightPoint
 
-  BTL = Lines(
-      firstPoint: Points(xCord: leftPoint.xCord, yCord: leftPoint.yCord - 1),
-      secondPoint: Points(xCord: rightPoint.xCord - 1, yCord: rightPoint.yCord),
-      owner: humanPlayer,
-      lineDirection: LineDirection.Horiz);
+    BTL = Lines(
+        firstPoint: Points(xCord: leftPoint.xCord, yCord: leftPoint.yCord - 1),
+        secondPoint: Points(xCord: rightPoint.xCord - 1, yCord: rightPoint.yCord),
+        owner: humanPlayer,
+        lineDirection: LineDirection.Horiz);
 
-  if (allLines.contains(BTL) && allLines.contains(RTL)) {
-    return false;
+    if (allLines.contains(BTL) && allLines.contains(RTL)) {
+      return false;
+    }
   }
-
   //let the received line be the TTR line then we need to check if the LTR and BTR lines are drawn or not //TODO: check this code
 
   leftPoint = line.firstPoint;
   rightPoint = line.secondPoint;
 
+  Lines LTR;
+  Lines BTR;
+
   //defining LTR from the leftPoint
-  Lines LTR = Lines(
-      firstPoint: leftPoint,
-      secondPoint: Points(xCord: leftPoint.xCord, yCord: leftPoint.yCord - 1),
-      owner: humanPlayer,
-      lineDirection: LineDirection.Vert);
+  if (line.lineDirection == LineDirection.Horiz) {
+    LTR = Lines(
+        firstPoint: leftPoint,
+        secondPoint: Points(xCord: leftPoint.xCord, yCord: leftPoint.yCord - 1),
+        owner: humanPlayer,
+        lineDirection: LineDirection.Vert);
 
-  //defining BTR from leftPoint and rightPoint
+    //defining BTR from leftPoint and rightPoint
 
-  Lines BTR = Lines(
-      firstPoint: Points(xCord: leftPoint.xCord, yCord: leftPoint.yCord + 1),
-      secondPoint: Points(xCord: rightPoint.xCord, yCord: rightPoint.yCord + 1),
-      owner: humanPlayer,
-      lineDirection: LineDirection.Horiz);
+    BTR = Lines(
+        firstPoint: Points(xCord: leftPoint.xCord, yCord: leftPoint.yCord + 1),
+        secondPoint: Points(xCord: rightPoint.xCord, yCord: rightPoint.yCord + 1),
+        owner: humanPlayer,
+        lineDirection: LineDirection.Horiz);
 
-  if (allLines.contains(LTR) && allLines.contains(BTR)) {
-    return false;
+    if (allLines.contains(LTR) && allLines.contains(BTR)) {
+      return false;
+    }
   }
 
   //let the recieved line be the RTR then we need to check again if the LTR and BTR lines are drawn or not
@@ -479,23 +516,24 @@ bool secondEightScenarios(Lines line) {
   lowerPoint = line.secondPoint;
 
   //defining BTR from the lowerPoint
+  if (line.lineDirection == LineDirection.Vert) {
+    BTR = Lines(
+        firstPoint: lowerPoint,
+        secondPoint: Points(xCord: lowerPoint.xCord - 1, yCord: lowerPoint.yCord),
+        owner: humanPlayer,
+        lineDirection: LineDirection.Horiz);
 
-  BTR = Lines(
-      firstPoint: lowerPoint,
-      secondPoint: Points(xCord: lowerPoint.xCord - 1, yCord: lowerPoint.yCord),
-      owner: humanPlayer,
-      lineDirection: LineDirection.Horiz);
+    //defining LTR from upperPoint and lowerPoint
 
-  //defining LTR from upperPoint and lowerPoint
+    LTR = Lines(
+        firstPoint: Points(xCord: upperPoint.xCord - 1, yCord: upperPoint.yCord),
+        secondPoint: Points(xCord: lowerPoint.xCord - 1, yCord: lowerPoint.yCord),
+        owner: humanPlayer,
+        lineDirection: LineDirection.Vert);
 
-  LTR = Lines(
-      firstPoint: Points(xCord: upperPoint.xCord - 1, yCord: upperPoint.yCord),
-      secondPoint: Points(xCord: lowerPoint.xCord - 1, yCord: lowerPoint.yCord),
-      owner: humanPlayer,
-      lineDirection: LineDirection.Vert);
-
-  if (allLines.contains(LTR) && allLines.contains(BTR)) {
-    return false;
+    if (allLines.contains(LTR) && allLines.contains(BTR)) {
+      return false;
+    }
   }
 
   //let the received line be the RBR line then we need to check if the TBR and LBR lines are drawn or not //TODO: check this code
@@ -504,23 +542,27 @@ bool secondEightScenarios(Lines line) {
   lowerPoint = line.secondPoint;
 
   //defining TBR from the upperPoint
+  Lines TBR;
+  Lines LBR;
 
-  Lines TBR = Lines(
-      firstPoint: upperPoint,
-      secondPoint: Points(xCord: upperPoint.xCord - 1, yCord: upperPoint.yCord),
-      owner: humanPlayer,
-      lineDirection: LineDirection.Horiz);
+  if (line.lineDirection == LineDirection.Vert) {
+    TBR = Lines(
+        firstPoint: upperPoint,
+        secondPoint: Points(xCord: upperPoint.xCord - 1, yCord: upperPoint.yCord),
+        owner: humanPlayer,
+        lineDirection: LineDirection.Horiz);
 
-  //defining LBR from upperPoint and lowerPoint
+    //defining LBR from upperPoint and lowerPoint
 
-  Lines LBR = Lines(
-      firstPoint: Points(xCord: upperPoint.xCord + 1, yCord: upperPoint.yCord),
-      secondPoint: Points(xCord: lowerPoint.xCord + 1, yCord: lowerPoint.yCord),
-      owner: humanPlayer,
-      lineDirection: LineDirection.Vert);
+    LBR = Lines(
+        firstPoint: Points(xCord: upperPoint.xCord + 1, yCord: upperPoint.yCord),
+        secondPoint: Points(xCord: lowerPoint.xCord + 1, yCord: lowerPoint.yCord),
+        owner: humanPlayer,
+        lineDirection: LineDirection.Vert);
 
-  if (allLines.contains(TBR) && allLines.contains(LBR)) {
-    return false;
+    if (allLines.contains(TBR) && allLines.contains(LBR)) {
+      return false;
+    }
   }
 
   //let the recieved line be the BBR then we need to check again if the TBR and LBR lines are drawn or not
@@ -529,23 +571,24 @@ bool secondEightScenarios(Lines line) {
   rightPoint = line.secondPoint;
 
   //defining LBR from the rightPoint
+  if (line.lineDirection == LineDirection.Horiz) {
+    LBR = Lines(
+        firstPoint: leftPoint,
+        secondPoint: Points(xCord: leftPoint.xCord, yCord: leftPoint.yCord - 1),
+        owner: humanPlayer,
+        lineDirection: LineDirection.Vert);
 
-  LBR = Lines(
-      firstPoint: leftPoint,
-      secondPoint: Points(xCord: leftPoint.xCord, yCord: leftPoint.yCord - 1),
-      owner: humanPlayer,
-      lineDirection: LineDirection.Vert);
+    //defining TBR from leftPoint and rightPoint
 
-  //defining TBR from leftPoint and rightPoint
+    TBR = Lines(
+        firstPoint: Points(xCord: leftPoint.xCord, yCord: leftPoint.yCord - 1),
+        secondPoint: Points(xCord: rightPoint.xCord, yCord: rightPoint.yCord - 1),
+        owner: humanPlayer,
+        lineDirection: LineDirection.Horiz);
 
-  TBR = Lines(
-      firstPoint: Points(xCord: leftPoint.xCord, yCord: leftPoint.yCord - 1),
-      secondPoint: Points(xCord: rightPoint.xCord, yCord: rightPoint.yCord - 1),
-      owner: humanPlayer,
-      lineDirection: LineDirection.Horiz);
-
-  if (allLines.contains(TBR) && allLines.contains(LBR)) {
-    return false;
+    if (allLines.contains(TBR) && allLines.contains(LBR)) {
+      return false;
+    }
   }
 
   //let the received line be the BBL line then we need to check if the TBL and RBL lines are drawn or not //TODO: check this code
@@ -554,23 +597,27 @@ bool secondEightScenarios(Lines line) {
   rightPoint = line.secondPoint;
 
   //defining RBL from the rightPoint
+  Lines RBL;
+  Lines TBL;
 
-  Lines RBL = Lines(
-      firstPoint: rightPoint,
-      secondPoint: Points(xCord: rightPoint.xCord, yCord: rightPoint.yCord - 1),
-      owner: humanPlayer,
-      lineDirection: LineDirection.Vert);
+  if (line.lineDirection == LineDirection.Horiz) {
+    RBL = Lines(
+        firstPoint: rightPoint,
+        secondPoint: Points(xCord: rightPoint.xCord, yCord: rightPoint.yCord - 1),
+        owner: humanPlayer,
+        lineDirection: LineDirection.Vert);
 
-  //defining TBL from leftPoint and rightPoint
+    //defining TBL from leftPoint and rightPoint
 
-  Lines TBL = Lines(
-      firstPoint: Points(xCord: leftPoint.xCord, yCord: leftPoint.yCord - 1),
-      secondPoint: Points(xCord: rightPoint.xCord, yCord: rightPoint.yCord - 1),
-      owner: humanPlayer,
-      lineDirection: LineDirection.Horiz);
+    TBL = Lines(
+        firstPoint: Points(xCord: leftPoint.xCord, yCord: leftPoint.yCord - 1),
+        secondPoint: Points(xCord: rightPoint.xCord, yCord: rightPoint.yCord - 1),
+        owner: humanPlayer,
+        lineDirection: LineDirection.Horiz);
 
-  if (allLines.contains(TBL) && allLines.contains(RBL)) {
-    return false;
+    if (allLines.contains(TBL) && allLines.contains(RBL)) {
+      return false;
+    }
   }
 
   //let the recieved line be the LBL then we need to check again if the TBL and RBL lines are drawn or not
@@ -579,27 +626,27 @@ bool secondEightScenarios(Lines line) {
   lowerPoint = line.secondPoint;
 
   //defining TBL from the upperPoint
+  if (line.lineDirection == LineDirection.Vert) {
+    TBL = Lines(
+        firstPoint: upperPoint,
+        secondPoint: Points(xCord: upperPoint.xCord + 1, yCord: upperPoint.yCord),
+        owner: humanPlayer,
+        lineDirection: LineDirection.Horiz);
 
-  TBL = Lines(
-      firstPoint: upperPoint,
-      secondPoint: Points(xCord: upperPoint.xCord + 1, yCord: upperPoint.yCord),
-      owner: humanPlayer,
-      lineDirection: LineDirection.Horiz);
+    //defining RBL from upperPoint and lowerPoint
 
-  //defining RBL from upperPoint and lowerPoint
+    RBL = Lines(
+        firstPoint: Points(xCord: upperPoint.xCord + 1, yCord: upperPoint.yCord),
+        secondPoint: Points(xCord: lowerPoint.xCord + 1, yCord: lowerPoint.yCord),
+        owner: humanPlayer,
+        lineDirection: LineDirection.Vert);
 
-  RBL = Lines(
-      firstPoint: Points(xCord: upperPoint.xCord + 1, yCord: upperPoint.yCord),
-      secondPoint: Points(xCord: lowerPoint.xCord + 1, yCord: lowerPoint.yCord),
-      owner: humanPlayer,
-      lineDirection: LineDirection.Vert);
-
-  if (allLines.contains(TBL) && allLines.contains(RBL)) {
-    return false;
+    if (allLines.contains(TBL) && allLines.contains(RBL)) {
+      return false;
+    }
   }
 
   //now we have checked all the 8 scenarios and we can say that the line is safe to draw
-  else {
-    return true;
-  }
+
+  return true;
 }
