@@ -649,4 +649,26 @@ The following 8 scenarios are when inner lines of the big square might be drawn 
 so in total the above 20 scenarios are the unsafe scenarios and we need to make sure that none of these scenarios occur when we are trying to find a safe line. If any of these scenarios occur then we need to find another safe line. If none of these scenarios occur then we can say that the line is safe to draw.
 
 
-        
+Now that we have implemented the safe lines list we will use it for several purposes in our game. We are now gonna develop the firstMaxSquareChain function. Following is the full definition of a firstMaxSquareChain():
+The firstMaxSquareChain is a series of squares that can be owned by the ai function by drawing a line one after the other and forming a square by each newLine drawn by ai. This is possible will when a user draws an unsafe line which allows the apponent which in this case is aiFunction to consume or own or complete one or more squares in series. Now the question is that how will we find this firstMaxSquareChain. Before we proceed to implement the logic for the firstMaxSquareChain, lets take a look at the definition of a secondMaxSquareChain. A secondMaxSquareChain is also similar to a firstMaxSquareChain but the only difference being that the secondMaxSquareChain has both ends open which mean that although it is not readily awailable to be completed/consumed however it is really dangerous to make a move here because if any player makes a move here. It will cause the entire chain to be available for the apponent. Therefore we have to find this secondMaxSquareChain as well. One more thing, that there may be many secondMaxSquare chains in the game but there can only be one firstMaxSquare chain. We will deal with with this after we are done with the firstMaxSquareCheck. This is why we need to store the secondMaxSquare chains in a list but the firstMaxSquareChain can be calculated and formed on the spot. Following is the flow chart for the firstMaxSquareChain.
+•	The first max square chain can be found easily. We just have to find the first line that allows the ai to own a square. Add it to the squares owned and linesdrawn then look again for a line that forms another square and so on. But we will not directly make this move we first have to run this code privately in the ai function and make some calculations and comparisons before doing so. 
+•	The firstMaxSquareChain function will contain a copy of allLines list(list of lines drawn in the game) in tempAllLines, tempremainingLines that contains lines of totalLines other than tempAllLines, it will try forEach tempremainingLine where a square may be formed. once we find a line where the square may be formed, we will add  it to the tempSquaresOwned[].
+Following pseudo code gives us an idea about the firstSquareMaxChain function:
+firstMaxSquareChain() {
+	tempAllLines []; //contains a copy of the list of allLines so that we don’t accidently modify the original allLines
+	tempRemaining []; //this list contains all the remaining lines. Ie totalLines – allLines;
+	//tempSquaresOwned []; //this list will contain the temporary squares formed inside this function. (unnecessary)
+	tempFirstChainMoves[]; contains a series of moves to complete squares in chain.
+//now we call and define a new function here which well resursively check for squares and add them to tempSquaresOwned[].
+	Void customCheckSquare( tempRemaining ) {
+		forEach (remainingLine) in tempRemaining {
+			if( checkSquare2(remainingLine) ){
+				tempAllLines.add(remainingLine);
+				tempRemaining.remove(remainingLine);
+				tempFirstChainMoves.add(remainingLine);
+				customCheckSquare(tempRemaining); //doing recursion
+			}
+		}
+	}
+} 
+//The checkedSquare2 is a customized version of the checkSquare function that will return true if the square can be formed from the provided line in the argument and returns false otherwise.
