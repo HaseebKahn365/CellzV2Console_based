@@ -65,6 +65,14 @@ void main() {
       lineDirection: LineDirection.Vert,
       isNew: true);
 
+  //create another line that could give the ai a square from allPoints[4] to allPoints[5]
+  Lines l6 = Lines(
+      firstPoint: allPoints[4],
+      secondPoint: allPoints[5],
+      owner: humanPlayer,
+      lineDirection: LineDirection.Horiz,
+      isNew: true);
+
   //lets add the above lines to the allLines list
   allLines.add(l1);
   print(l1);
@@ -76,6 +84,8 @@ void main() {
   print(l4); //tests passed!
   allLines.add(l5);
   print(l5); //causes 22 safelines to remain.
+  allLines.add(l6);
+  print(l6); //causes 18 safelines to remain.
   aiFunction(); //tests passed!
 }
 

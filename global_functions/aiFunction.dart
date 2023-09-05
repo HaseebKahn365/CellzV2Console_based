@@ -109,7 +109,9 @@ List<Lines> firstMaxSquareChain() {
  */
 
   List<Lines> firstChainMoves = [];
-  // firstChainMoves = firstMaxSquareChain(totalLines, allLines);
+  firstChainMoves = firstMaxSquareChain(totalLines, allLines);
+  print('first chain moves length is ${firstChainMoves.length}');
+  firstChainMoves.forEach(print);
 }
 
 bool isSafeLine(Lines line) {

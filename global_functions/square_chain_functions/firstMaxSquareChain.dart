@@ -7,7 +7,9 @@ List<Lines> firstMaxSquareChain(List<Lines> totalLines, List<Lines> allLines) {
   List<Lines> tempFirstChainMoves = [];
 
   tempAllLines = List.from(allLines);
-  tempRemaining = List.from(totalLines);
+  // tempRemaining = List.from(totalLines); //tempRemaining contains all the lines that are not in the allLines list
+  tempRemaining = totalLines.where((element) => !tempAllLines.contains(element)).toList();
+  //calling the customCheckSquare
 
   void customCheckSquare(List<Lines> tempRemaining) {
     for (int i = 0; i < tempRemaining.length; i++) {
@@ -23,6 +25,7 @@ List<Lines> firstMaxSquareChain(List<Lines> totalLines, List<Lines> allLines) {
   }
 
   customCheckSquare(tempRemaining);
+
   return tempFirstChainMoves;
 }
 
@@ -50,6 +53,7 @@ bool checkSquare2(Lines line, List<Lines> tempAllLines) {
           lineDirection: LineDirection.Horiz);
 
       if (tempAllLines.contains(L1) && tempAllLines.contains(L2) && tempAllLines.contains(L3)) {
+        print('square found for line: $line');
         return true;
       }
 
@@ -79,6 +83,7 @@ bool checkSquare2(Lines line, List<Lines> tempAllLines) {
       // print('l3 containment check: ${tempAllLines.contains(L3)} and l3: $L3');  these return true as these should.
 
       if (tempAllLines.contains(L1) && tempAllLines.contains(L2) && tempAllLines.contains(L3)) {
+        print('square found for line: $line');
         return true;
       }
 
@@ -106,6 +111,7 @@ bool checkSquare2(Lines line, List<Lines> tempAllLines) {
           lineDirection: LineDirection.Vert);
 
       if (tempAllLines.contains(L1) && tempAllLines.contains(L2) && tempAllLines.contains(L3)) {
+        print('square found for line: $line');
         return true;
       }
 
@@ -130,6 +136,7 @@ bool checkSquare2(Lines line, List<Lines> tempAllLines) {
           lineDirection: LineDirection.Vert);
 
       if (tempAllLines.contains(L1) && tempAllLines.contains(L2) && tempAllLines.contains(L3)) {
+        print('square found for line: $line');
         return true;
       }
 
