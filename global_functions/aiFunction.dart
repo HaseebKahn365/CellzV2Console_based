@@ -35,7 +35,7 @@ void aiFunction() {
     }
   }
 
-  print(totalLines.length);
+  print('toatl lines length is ${totalLines.length}');
   print(GameCanvas
       .movesLeft); //test passed: the totalLines list is created properly and the length is 31 which is correct. this is becuase we have 4Xpoints and 5Ypoints and the total number of lines is 5*3 + 4*4 = 31
 //making sure that all the lines in the totalLines list are correct and valid.
@@ -57,7 +57,7 @@ void aiFunction() {
   for (int i = 0; i < totalLines.length; i++) {
     if (totalLines[i].lineDirection == LineDirection.Horiz) {
       if (isSafeLine(totalLines[i])) {
-        if (!safeLines.contains(totalLines[i]) && !allLines.contains(totalLines[i])) {
+        if (!allLines.contains(totalLines[i])) {
           safeLines.add(totalLines[i]);
         }
       }
@@ -78,7 +78,7 @@ void aiFunction() {
 
   //Implementing the isSafeLine function. This function will return true if the line is safe and false if it is not safe
   //Now lets test safe lines. we should get all the lines in the safeLines list as there are in the
-  print(safeLines.length);
+  print('safe lines length is ${safeLines.length}');
 }
 
 bool isSafeLine(Lines line) {

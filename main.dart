@@ -26,17 +26,25 @@ void main() {
   //tests passed for GamePlayers class
 
   //Testing aiFunction
-  //lets add three lines to the allLines list
-  Lines l1 = Lines(
-      firstPoint: allPoints[0], secondPoint: allPoints[1], owner: humanPlayer, lineDirection: LineDirection.Horiz);
-  Lines l2 = Lines(
-      firstPoint: allPoints[2], secondPoint: allPoints[3], owner: humanPlayer, lineDirection: LineDirection.Horiz);
-  Lines l3 =
-      Lines(firstPoint: allPoints[0], secondPoint: allPoints[2], owner: humanPlayer, lineDirection: LineDirection.Vert);
-  //lets add the above lines to the allLines list
-  allLines.add(l1);
-  allLines.add(l2);
-  allLines.add(l3);
+  //lets add two adjacent lines to the allLines list so that there is a line that is not safe
+  // Lines l1 = Lines(
+  //     firstPoint: allPoints[0],
+  //     secondPoint: allPoints[1],
+  //     owner: humanPlayer,
+  //     lineDirection: LineDirection.Horiz,
+  //     isNew: true); //this is the first horizontal line
+
+  // Lines l2 = Lines(
+  //     firstPoint: allPoints[0],
+  //     secondPoint: allPoints[4],
+  //     owner: humanPlayer,
+  //     lineDirection: LineDirection.Vert); //this is the second horizontal line
+
+  // //lets add the above lines to the allLines list
+  // allLines.add(l1);
+  // print(l1);
+  // allLines.add(l2);
+  // print(l2);
   aiFunction();
 }
 
