@@ -14,9 +14,9 @@ List<Lines> firstMaxSquareChain(List<Lines> totalLines, List<Lines> allLines) {
   void customCheckSquare(List<Lines> tempRemaining) {
     for (int i = 0; i < tempRemaining.length; i++) {
       if (checkSquare2(tempRemaining[i], tempAllLines)) {
+        tempFirstChainMoves.add(tempRemaining[i]);
         tempAllLines.add(tempRemaining[i]);
         tempRemaining.remove(tempRemaining[i]);
-        tempFirstChainMoves.add(tempRemaining[i]);
         customCheckSquare(
           tempRemaining,
         );
