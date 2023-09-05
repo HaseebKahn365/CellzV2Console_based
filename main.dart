@@ -26,6 +26,17 @@ void main() {
   //tests passed for GamePlayers class
 
   //Testing aiFunction
+  //lets add three lines to the allLines list
+  Lines l1 = Lines(
+      firstPoint: allPoints[0], secondPoint: allPoints[1], owner: humanPlayer, lineDirection: LineDirection.Horiz);
+  Lines l2 = Lines(
+      firstPoint: allPoints[2], secondPoint: allPoints[3], owner: humanPlayer, lineDirection: LineDirection.Horiz);
+  Lines l3 =
+      Lines(firstPoint: allPoints[0], secondPoint: allPoints[2], owner: humanPlayer, lineDirection: LineDirection.Vert);
+  //lets add the above lines to the allLines list
+  allLines.add(l1);
+  allLines.add(l2);
+  allLines.add(l3);
   aiFunction();
 }
 

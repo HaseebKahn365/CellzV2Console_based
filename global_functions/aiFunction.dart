@@ -57,7 +57,9 @@ void aiFunction() {
   for (int i = 0; i < totalLines.length; i++) {
     if (totalLines[i].lineDirection == LineDirection.Horiz) {
       if (isSafeLine(totalLines[i])) {
-        safeLines.add(totalLines[i]);
+        if (!safeLines.contains(totalLines[i]) && !allLines.contains(totalLines[i])) {
+          safeLines.add(totalLines[i]);
+        }
       }
     }
   }
@@ -67,12 +69,16 @@ void aiFunction() {
   for (int i = 0; i < totalLines.length; i++) {
     if (totalLines[i].lineDirection == LineDirection.Vert) {
       if (isSafeLine(totalLines[i])) {
-        safeLines.add(totalLines[i]);
+        if (!safeLines.contains(totalLines[i]) && !allLines.contains(totalLines[i])) {
+          safeLines.add(totalLines[i]);
+        }
       }
     }
   }
 
   //Implementing the isSafeLine function. This function will return true if the line is safe and false if it is not safe
+  //Now lets test safe lines. we should get all the lines in the safeLines list as there are in the
+  print(safeLines.length);
 }
 
 bool isSafeLine(Lines line) {
