@@ -27,25 +27,56 @@ void main() {
 
   //Testing aiFunction
   //lets add two adjacent lines to the allLines list so that there is a line that is not safe
-  // Lines l1 = Lines(
-  //     firstPoint: allPoints[0],
-  //     secondPoint: allPoints[1],
-  //     owner: humanPlayer,
-  //     lineDirection: LineDirection.Horiz,
-  //     isNew: true); //this is the first horizontal line
+  Lines l1 = Lines(
+      firstPoint: allPoints[0],
+      secondPoint: allPoints[1],
+      owner: humanPlayer,
+      lineDirection: LineDirection.Horiz,
+      isNew: true); //this is the first horizontal line
 
-  // Lines l2 = Lines(
-  //     firstPoint: allPoints[0],
-  //     secondPoint: allPoints[4],
-  //     owner: humanPlayer,
-  //     lineDirection: LineDirection.Vert); //this is the second horizontal line
+  Lines l2 = Lines(
+      firstPoint: allPoints[0],
+      secondPoint: allPoints[4],
+      owner: humanPlayer,
+      lineDirection: LineDirection.Vert); //this is the second horizontal line
 
-  // //lets add the above lines to the allLines list
-  // allLines.add(l1);
-  // print(l1);
-  // allLines.add(l2);
-  // print(l2);
-  aiFunction();
+  //create another horizontal line from (0,1) to (0,2)
+  Lines l3 = Lines(
+      firstPoint: allPoints[4],
+      secondPoint: allPoints[8],
+      owner: humanPlayer,
+      lineDirection: LineDirection.Vert,
+      isNew: true);
+
+  //create another horizontal line in the middle from allPoints[9] to allPoints[10]
+  Lines l4 = Lines(
+      firstPoint: allPoints[9],
+      secondPoint: allPoints[10],
+      owner: humanPlayer,
+      lineDirection: LineDirection.Horiz,
+      isNew: true);
+
+  //create another line from point allPoints[10] to allPoints[14]
+
+  Lines l5 = Lines(
+      firstPoint: allPoints[10],
+      secondPoint: allPoints[14],
+      owner: humanPlayer,
+      lineDirection: LineDirection.Vert,
+      isNew: true);
+
+  //lets add the above lines to the allLines list
+  allLines.add(l1);
+  print(l1);
+  allLines.add(l2);
+  print(l2);
+  allLines.add(l3);
+  print(l3); //causes 26 safelines to remain.
+  allLines.add(l4);
+  print(l4); //tests passed!
+  allLines.add(l5);
+  print(l5); //causes 22 safelines to remain.
+  aiFunction(); //tests passed!
 }
 
 
