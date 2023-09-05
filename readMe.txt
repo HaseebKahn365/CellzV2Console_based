@@ -671,4 +671,5 @@ firstMaxSquareChain() {
 		}
 	}
 } 
+//After implementing the firstMaxSquareChain function we will implement the checkSquare2 function. Following is the definition of the checkSquare2 function:
 //The checkedSquare2 is a customized version of the checkSquare function that will return true if the square can be formed from the provided line in the argument and returns false otherwise.

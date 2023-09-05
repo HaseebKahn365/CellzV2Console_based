@@ -51,6 +51,7 @@ Lines createLine(Points p1, Points p2) {
 Lines? newLine;
 
 checkSquare(Lines newLine) {
+  //TODO In the actual game make sure that the newLine doesn't exist in the allLines list before calling this function
   allLines.add(newLine);
   switch (newLine.lineDirection) {
     case LineDirection.Horiz:
