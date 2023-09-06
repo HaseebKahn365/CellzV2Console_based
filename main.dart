@@ -73,6 +73,21 @@ void main() {
       lineDirection: LineDirection.Horiz,
       isNew: true);
 
+  //now add two more horizontal lines from allPoints[1] to allPoints[2] and from allPoints[5] to allPoints[6] to extend the chain and test it
+  Lines l7 = Lines(
+      firstPoint: allPoints[1],
+      secondPoint: allPoints[2],
+      owner: humanPlayer,
+      lineDirection: LineDirection.Horiz,
+      isNew: true);
+
+  Lines l8 = Lines(
+      firstPoint: allPoints[5],
+      secondPoint: allPoints[6],
+      owner: humanPlayer,
+      lineDirection: LineDirection.Horiz,
+      isNew: true);
+
   //lets add the above lines to the allLines list
   allLines.add(l1);
   print(l1);
@@ -86,6 +101,10 @@ void main() {
   print(l5); //causes 22 safelines to remain.
   allLines.add(l6);
   print(l6); //causes 18 safelines to remain.
+  allLines.add(l7);
+  print(l7); //causes 14 safelines to remain.
+  allLines.add(l8);
+  print(l8); //causes 10 safelines to remain.
   aiFunction(); //tests passed!
 }
 
