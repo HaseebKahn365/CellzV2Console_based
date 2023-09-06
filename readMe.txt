@@ -671,5 +671,23 @@ firstMaxSquareChain() {
 		}
 	}
 } 
-//After implementing the firstMaxSquareChain function we will implement the checkSquare2 function. Following is the definition of the checkSquare2 function:
-//The checkedSquare2 is a customized version of the checkSquare function that will return true if the square can be formed from the provided line in the argument and returns false otherwise.
+
+
+Now that we have tested the firstMaxSquareChain finder function, we are now ready to develop the secondMaxSquareChain(). What is the purpose of secondMaxSquareChain() when we already have the safe line and firstMaxSquareChain()? The answer is that at the final stage of the game we might be out of safeLines that is when we would need to identify the weight of the secondMaxChain to know whether we should completely go through the entire firstMaxSquareChain or stop at the second last line of the tempFirstChainMoves and do the trick move. A trick move is simple we just have to close the firstMaxSquareChain by letting the aiFunction mark the last line of the tempFirstChainMoves when we reach the second last line of the tempFirstChainMoves, why are we doing this? Because this way, although we lose two squares but it also puts the user into the risk of making a line in the secondMaxChain which is exactly what we want because we don’t want the ai to touch the secondMaxChain. Once the user put a line in the secondMaxSquareChain the aiFunction will take the advantage and complete the entire chain and get the score for itself. OK, enough talking, lets talk code now.
+Following is the pseudo code for the secondMaxSquareChain function:
+List<List<Lines>> tempSecondMaxChainsList = [];
+ secondMaxSquareChain(totalLines, allLines, tempFirstChainMoves){
+	List<Lines> tempCheckableLines = list of elements that is in in totalLines but not in the tempFirstChainMoves and allLines;
+List<Lines> tempAllLines; //this list of lines will hold the lines that are in allLines list and also in the list of tempFirstChainMoves
+tempAllLines  = […allLines, … tempFirstChainMoves];
+tempCheckableLines = totalLines - tempAllLines  ;
+forEach line in tempCheckables {
+	tempAllLines.add(line);
+	tempFirstChain = firstMaxSquareChain(totalLines, tempAllLines);
+	if( !tempSecondMaxChainsList.contains(tempFirstChain) ) { tempSecondMaxChainsList .add(tempFirstChain)}
+	tempAllLines.remove(line);
+
+	}
+}
+
+The idea of second secondMaxSquareChain is simple. At first we define a temporary list of lists each of which would contain lines of firstMaxChains which may be empty for safeLines. Anyhow, this list of Lists will store the firstChainMoves for every line that is in the tempAllLines. The definition of secondMaxSquareChain function allows it to receive the totalLines in the game and the actual lines / moves that have been done so far in the game that are available in the allLines. So at first we calculate the moves for which we should be calculating the firstMaxSquareChain. We store these moves aka lines in the tempCheckableLines. After this, we run a loop that will at first add the current line to the tempAllLines so that the chain may be formed from the tempAllLines and the firstMaxSquareChain may find it. Afterwards we have to remove this line that we added because we are about to calculate the firstMaxSquareChain for the next line of the loop. We will keep on doing this for every line in the tempCheckableLines. However, there is a problem, we will find several duplicates of the same chain in the list of chains ie. tempSecondMaxChainsList. This is why we need to first check if this list is already in the tempSecondMaxChainsList before adding it to the list. We do this by first checking if the list already exists or not inside the tempFirstChain before adding it to the list. At the end we remove line after we are done finding secondMaxSquareChain for it. 

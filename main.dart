@@ -24,9 +24,13 @@ void main() {
   GamePlayers aiPlayer = GamePlayers(isPlayer: false, score: 0, numOfLives: 4, linesDrawn: [], squaresOwned: []);
   aiPlayer.hasTurn = false;
   //tests passed for GamePlayers class
+  //adding new Lines to the allLines list
 
-  //Testing aiFunction
-  //lets add two adjacent lines to the allLines list so that there is a line that is not safe
+  //lets add 3 lines in the top from allPoints[0] to allPoints[1], from allPoints[1] to allPoints[2] and from allPoints[2] to allPoints[3]
+  //then add a line from allPoints[0] to allPoints[4]
+  // add 3 lines in the second last row of points from allPoints[12] to allPoints[13], from allPoints[13] to allPoints[14] and from allPoints[14] to allPoints[15]
+  //add 3 lines from allPoints[16] to allPoints[17], from allPoints[17] to allPoints[18] and from allPoints[18] to allPoints[19]
+
   Lines l1 = Lines(
       firstPoint: allPoints[0],
       secondPoint: allPoints[1],
@@ -35,82 +39,111 @@ void main() {
       isNew: true); //this is the first horizontal line
 
   Lines l2 = Lines(
-      firstPoint: allPoints[0],
-      secondPoint: allPoints[4],
-      owner: humanPlayer,
-      lineDirection: LineDirection.Vert); //this is the second horizontal line
-
-  //create another horizontal line from (0,1) to (0,2)
-  Lines l3 = Lines(
-      firstPoint: allPoints[4],
-      secondPoint: allPoints[8],
-      owner: humanPlayer,
-      lineDirection: LineDirection.Vert,
-      isNew: true);
-
-  //create another horizontal line in the middle from allPoints[9] to allPoints[10]
-  Lines l4 = Lines(
-      firstPoint: allPoints[9],
-      secondPoint: allPoints[10],
-      owner: humanPlayer,
-      lineDirection: LineDirection.Horiz,
-      isNew: true);
-
-  //create another line from point allPoints[10] to allPoints[14]
-
-  Lines l5 = Lines(
-      firstPoint: allPoints[10],
-      secondPoint: allPoints[14],
-      owner: humanPlayer,
-      lineDirection: LineDirection.Vert,
-      isNew: true);
-
-  //create another line that could give the ai a square from allPoints[4] to allPoints[5]
-  Lines l6 = Lines(
-      firstPoint: allPoints[4],
-      secondPoint: allPoints[5],
-      owner: humanPlayer,
-      lineDirection: LineDirection.Horiz,
-      isNew: true);
-
-  //now add two more horizontal lines from allPoints[1] to allPoints[2] and from allPoints[5] to allPoints[6] to extend the chain and test it
-  Lines l7 = Lines(
       firstPoint: allPoints[1],
       secondPoint: allPoints[2],
       owner: humanPlayer,
       lineDirection: LineDirection.Horiz,
-      isNew: true);
+      isNew: true); //this is the second horizontal line
 
-  Lines l8 = Lines(
+  Lines l3 = Lines(
+      firstPoint: allPoints[2],
+      secondPoint: allPoints[3],
+      owner: humanPlayer,
+      lineDirection: LineDirection.Horiz,
+      isNew: true); //this is the third horizontal line
+
+  Lines l4 = Lines(
+      firstPoint: allPoints[0],
+      secondPoint: allPoints[4],
+      owner: humanPlayer,
+      lineDirection: LineDirection.Vert,
+      isNew: true); //this is the first vertical line
+
+  //create more lines from allPoints[4] to allPoints[5] and from allPoints[5] to allPoints[6] and from allPoints[6] to allPoints[7]
+
+  Lines l5 = Lines(
+      firstPoint: allPoints[4],
+      secondPoint: allPoints[5],
+      owner: humanPlayer,
+      lineDirection: LineDirection.Horiz,
+      isNew: true); //this is the first horizontal line
+
+  Lines l6 = Lines(
       firstPoint: allPoints[5],
       secondPoint: allPoints[6],
       owner: humanPlayer,
       lineDirection: LineDirection.Horiz,
-      isNew: true);
+      isNew: true); //this is the second horizontal line
+
+  Lines l7 = Lines(
+      firstPoint: allPoints[6],
+      secondPoint: allPoints[7],
+      owner: humanPlayer,
+      lineDirection: LineDirection.Horiz,
+      isNew: true); //this is the third horizontal line
+
+  // add 3 lines in the second last row of points from allPoints[12] to allPoints[13], from allPoints[13] to allPoints[14] and from allPoints[14] to allPoints[15]
+  //add 3 lines from allPoints[16] to allPoints[17], from allPoints[17] to allPoints[18] and from allPoints[18] to allPoints[19]
+
+  Lines l8 = Lines(
+      firstPoint: allPoints[12],
+      secondPoint: allPoints[13],
+      owner: humanPlayer,
+      lineDirection: LineDirection.Horiz,
+      isNew: true); //this is the first horizontal line
+
+  Lines l9 = Lines(
+      firstPoint: allPoints[13],
+      secondPoint: allPoints[14],
+      owner: humanPlayer,
+      lineDirection: LineDirection.Horiz,
+      isNew: true); //this is the second horizontal line
+
+  Lines l10 = Lines(
+      firstPoint: allPoints[14],
+      secondPoint: allPoints[15],
+      owner: humanPlayer,
+      lineDirection: LineDirection.Horiz,
+      isNew: true); //this is the third horizontal line
+
+  Lines l11 = Lines(
+      firstPoint: allPoints[16],
+      secondPoint: allPoints[17],
+      owner: humanPlayer,
+      lineDirection: LineDirection.Horiz,
+      isNew: true); //this is the first horizontal line
+
+  Lines l12 = Lines(
+      firstPoint: allPoints[17],
+      secondPoint: allPoints[18],
+      owner: humanPlayer,
+      lineDirection: LineDirection.Horiz,
+      isNew: true); //this is the second horizontal line
+
+  Lines l13 = Lines(
+      firstPoint: allPoints[18],
+      secondPoint: allPoints[19],
+      owner: humanPlayer,
+      lineDirection: LineDirection.Horiz,
+      isNew: true); //this is the third horizontal line
 
   //lets add the above lines to the allLines list
   allLines.add(l1);
-  print(l1);
   allLines.add(l2);
-  print(l2);
   allLines.add(l3);
-  print(l3); //causes 26 safelines to remain.
   allLines.add(l4);
-  print(l4); //tests passed!
   allLines.add(l5);
-  print(l5);
   allLines.add(l6);
-  print(l6);
   allLines.add(l7);
-  print(l7);
   allLines.add(l8);
-  print(l8);
+  allLines.add(l9);
+  allLines.add(l10);
+  allLines.add(l11);
+  allLines.add(l12);
+  allLines.add(l13);
+
   aiFunction(); //tests passed!
 }
-
-
-
-
 
 //testing the overloaded == operator. lets see the allPoints list contains the above objects or not
 // print(allPoints.contains(p1));
@@ -295,7 +328,6 @@ void main() {
 //   Offset offset12 = Offset(dx: 0, dy: -500);
 //   offsetAnalyzer(offset11, offset12, allPoints[5]); //test passed
 
-
 // Before creating the newLine there are several rules on the basics of which the ai will make move.
 // Firstly, the AI function will internally create several calculated variable within its scope. These variables are essential for the aiFunction to analyze the situation in the game and do the best move.
 // Following is the flow chart of what the aiFunction does.
@@ -340,3 +372,83 @@ void main() {
 //     print(totalLines[i]);
 //   }
 
+//Testing aiFunction
+//lets add two adjacent lines to the allLines list so that there is a line that is not safe
+// Lines l1 = Lines(
+//     firstPoint: allPoints[0],
+//     secondPoint: allPoints[1],
+//     owner: humanPlayer,
+//     lineDirection: LineDirection.Horiz,
+//     isNew: true); //this is the first horizontal line
+
+// Lines l2 = Lines(
+//     firstPoint: allPoints[0],
+//     secondPoint: allPoints[4],
+//     owner: humanPlayer,
+//     lineDirection: LineDirection.Vert); //this is the second horizontal line
+
+// //create another horizontal line from (0,1) to (0,2)
+// Lines l3 = Lines(
+//     firstPoint: allPoints[4],
+//     secondPoint: allPoints[8],
+//     owner: humanPlayer,
+//     lineDirection: LineDirection.Vert,
+//     isNew: true);
+
+// //create another horizontal line in the middle from allPoints[9] to allPoints[10]
+// Lines l4 = Lines(
+//     firstPoint: allPoints[9],
+//     secondPoint: allPoints[10],
+//     owner: humanPlayer,
+//     lineDirection: LineDirection.Horiz,
+//     isNew: true);
+
+// //create another line from point allPoints[10] to allPoints[14]
+
+// Lines l5 = Lines(
+//     firstPoint: allPoints[10],
+//     secondPoint: allPoints[14],
+//     owner: humanPlayer,
+//     lineDirection: LineDirection.Vert,
+//     isNew: true);
+
+// //create another line that could give the ai a square from allPoints[4] to allPoints[5]
+// Lines l6 = Lines(
+//     firstPoint: allPoints[4],
+//     secondPoint: allPoints[5],
+//     owner: humanPlayer,
+//     lineDirection: LineDirection.Horiz,
+//     isNew: true);
+
+// //now add two more horizontal lines from allPoints[1] to allPoints[2] and from allPoints[5] to allPoints[6] to extend the chain and test it
+// Lines l7 = Lines(
+//     firstPoint: allPoints[1],
+//     secondPoint: allPoints[2],
+//     owner: humanPlayer,
+//     lineDirection: LineDirection.Horiz,
+//     isNew: true);
+
+// Lines l8 = Lines(
+//     firstPoint: allPoints[5],
+//     secondPoint: allPoints[6],
+//     owner: humanPlayer,
+//     lineDirection: LineDirection.Horiz,
+//     isNew: true);
+
+// //lets add the above lines to the allLines list
+// allLines.add(l1);
+// print(l1);
+// allLines.add(l2);
+// print(l2);
+// allLines.add(l3);
+// print(l3); //causes 26 safelines to remain.
+// allLines.add(l4);
+// print(l4); //tests passed!
+// allLines.add(l5);
+// print(l5);
+// allLines.add(l6);
+// print(l6);
+// allLines.add(l7);
+// print(l7);
+// allLines.add(l8);
+// print(l8);
