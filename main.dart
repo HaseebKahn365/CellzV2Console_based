@@ -98,13 +98,13 @@ void main() {
   allLines.add(l4);
   print(l4); //tests passed!
   allLines.add(l5);
-  print(l5); //causes 22 safelines to remain.
+  print(l5);
   allLines.add(l6);
-  print(l6); //causes 18 safelines to remain.
+  print(l6);
   allLines.add(l7);
-  print(l7); //causes 14 safelines to remain.
+  print(l7);
   allLines.add(l8);
-  print(l8); //causes 10 safelines to remain.
+  print(l8);
   aiFunction(); //tests passed!
 }
 
