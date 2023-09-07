@@ -53,8 +53,8 @@ void main() {
       isNew: true); //this is the third horizontal line
 
   Lines l4 = Lines(
-      firstPoint: allPoints[0],
-      secondPoint: allPoints[4],
+      firstPoint: allPoints[1],
+      secondPoint: allPoints[5],
       owner: humanPlayer,
       lineDirection: LineDirection.Vert,
       isNew: true); //this is the first vertical line
@@ -84,13 +84,6 @@ void main() {
 
   // add 3 lines in the second last row of points from allPoints[12] to allPoints[13], from allPoints[13] to allPoints[14] and from allPoints[14] to allPoints[15]
   //add 3 lines from allPoints[16] to allPoints[17], from allPoints[17] to allPoints[18] and from allPoints[18] to allPoints[19]
-
-  Lines l8 = Lines(
-      firstPoint: allPoints[12],
-      secondPoint: allPoints[13],
-      owner: humanPlayer,
-      lineDirection: LineDirection.Horiz,
-      isNew: true); //this is the first horizontal line
 
   Lines l9 = Lines(
       firstPoint: allPoints[13],
@@ -127,6 +120,31 @@ void main() {
       lineDirection: LineDirection.Horiz,
       isNew: true); //this is the third horizontal line
 
+  //lets add three more lines from allPoints[8] to allPoints[12]  and from allPoints[9] to allPoints[13] and from allPoints[12] to allPoints[16]
+
+  Lines l14 = Lines(
+      firstPoint: allPoints[8],
+      secondPoint: allPoints[12],
+      owner: humanPlayer,
+      lineDirection: LineDirection.Vert,
+      isNew: true); //this is the first vertical line
+
+  Lines l15 = Lines(
+      firstPoint: allPoints[9],
+      secondPoint: allPoints[13],
+      owner: humanPlayer,
+      lineDirection: LineDirection.Vert,
+      isNew: true); //this is the second vertical line
+
+  Lines l16 = Lines(
+
+      //this is the third vertical line
+      firstPoint: allPoints[12],
+      secondPoint: allPoints[16],
+      owner: humanPlayer,
+      lineDirection: LineDirection.Vert,
+      isNew: true);
+
   //lets add the above lines to the allLines list
   allLines.add(l1);
   allLines.add(l2);
@@ -135,12 +153,16 @@ void main() {
   allLines.add(l5);
   allLines.add(l6);
   allLines.add(l7);
-  allLines.add(l8);
+
   allLines.add(l9);
   allLines.add(l10);
   allLines.add(l11);
   allLines.add(l12);
   allLines.add(l13);
+  allLines.add(l14);
+  allLines.add(l15);
+  allLines.add(l16);
+  //Lines have been tested both the firstMaxChain and secondMaxChain functions are working properly! congratulations!
 
   aiFunction(); //tests passed!
 }

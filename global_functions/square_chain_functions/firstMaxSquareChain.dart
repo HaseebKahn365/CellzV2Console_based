@@ -53,7 +53,7 @@ bool checkSquare2(Lines line, List<Lines> tempAllLines) {
           lineDirection: LineDirection.Horiz);
 
       if (tempAllLines.contains(L1) && tempAllLines.contains(L2) && tempAllLines.contains(L3)) {
-        print('square found for line: $line');
+        // print('square found for line: $line');
         return true;
       }
 
@@ -83,7 +83,7 @@ bool checkSquare2(Lines line, List<Lines> tempAllLines) {
       // print('l3 containment check: ${tempAllLines.contains(L3)} and l3: $L3');  these return true as these should.
 
       if (tempAllLines.contains(L1) && tempAllLines.contains(L2) && tempAllLines.contains(L3)) {
-        print('square found for line: $line');
+        // print('square found for line: $line');
         return true;
       }
 
@@ -111,7 +111,7 @@ bool checkSquare2(Lines line, List<Lines> tempAllLines) {
           lineDirection: LineDirection.Vert);
 
       if (tempAllLines.contains(L1) && tempAllLines.contains(L2) && tempAllLines.contains(L3)) {
-        print('square found for line: $line');
+        // print('square found for line: $line');
         return true;
       }
 
@@ -136,7 +136,7 @@ bool checkSquare2(Lines line, List<Lines> tempAllLines) {
           lineDirection: LineDirection.Vert);
 
       if (tempAllLines.contains(L1) && tempAllLines.contains(L2) && tempAllLines.contains(L3)) {
-        print('square found for line: $line');
+        //print('square found for line: $line');
         return true;
       }
 
