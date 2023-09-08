@@ -15,7 +15,7 @@ secondMaxSquareChain(List<Lines> totalLines, List<Lines> allLines, List<Lines> t
     // print('tempFirstChain length is ${tempFirstChain.length}');
     // print('tempFirstChain is $tempFirstChain');
     //only add lists to the tempSecondMaxChainsList if its length is greater than 1
-    if (tempFirstChain.length > 1) tempSecondMaxChainsList.add(tempFirstChain);
+    tempSecondMaxChainsList.add(tempFirstChain);
     // if (!tempSecondMaxChainsList.contains(tempFirstChain)) {
     // } // no need to check for this condition as the tempFirstChain will always be unique.
     tempAllLines.remove(line);

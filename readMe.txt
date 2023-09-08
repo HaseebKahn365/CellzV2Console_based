@@ -690,4 +690,30 @@ forEach line in tempCheckables {
 	}
 }
 
-The idea of second secondMaxSquareChain is simple. At first we define a temporary list of lists each of which would contain lines of firstMaxChains which may be empty for safeLines. Anyhow, this list of Lists will store the firstChainMoves for every line that is in the tempAllLines. The definition of secondMaxSquareChain function allows it to receive the totalLines in the game and the actual lines / moves that have been done so far in the game that are available in the allLines. So at first we calculate the moves for which we should be calculating the firstMaxSquareChain. We store these moves aka lines in the tempCheckableLines. After this, we run a loop that will at first add the current line to the tempAllLines so that the chain may be formed from the tempAllLines and the firstMaxSquareChain may find it. Afterwards we have to remove this line that we added because we are about to calculate the firstMaxSquareChain for the next line of the loop. We will keep on doing this for every line in the tempCheckableLines. However, there is a problem, we will find several duplicates of the same chain in the list of chains ie. tempSecondMaxChainsList. This is why we need to first check if this list is already in the tempSecondMaxChainsList before adding it to the list. We do this by first checking if the list already exists or not inside the tempFirstChain before adding it to the list. At the end we remove line after we are done finding secondMaxSquareChain for it. 
+
+
+After knowing about the safelines, firstMaxSquareChain list and the secondMaxSquareChain list of lists, we now need to let the ai function create appropriate line based on the situation’s safeLines, leastSquareMaxChain, and firstMaxSquareChain to make the appropriate move. A leastSquareMaxChain is a list of lines in the in the  secondMaxSquareChain which contains the lease number of elements/lines. Here is the pseudo code for how the ai will createLine:
+
+List<Lines> leastSquareMaxChain = secondMaxSquareChain.where(list.length is maximum);
+
+If( safeLines.length == 0 && leastSquareMaxChain.length > (1.5* firstMaxSquareChain)){
+	doTrickShot();
+	}else{
+		completeFMC();
+	}
+
+Void doTrickShot(FMC){
+	If(FMC.length > 1){
+		Int trickShotMove = 0;
+		While(trickShotMove < FMC.length-2){
+			createLine(FMC[trickShotMove]); //run this loop until the secondLastLine. (without secondlastLine)
+			trickShotMove++;
+			}
+		createLine( FMC [ FMC.length – 1 ] ); //create last line
+		}
+	If( FMC.length ==1 ) { completeFMC();} else{
+			createLine( leastSquareMaxChain.selectRandomIndex() );//select any random line from the secondMaxChain length. And create line from it.
+		}
+	 
+	}
+Now implementing the completeFMC() this is used for creating the newlines without the need for the doTrickShot(). The logic for the completeFMC() is quite simple. We just have to go through every line in the in the firstMaxSquareChain list of lines and create newLine using the create function for each one of the lines in the firstMaxSquareChain
