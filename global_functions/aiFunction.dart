@@ -133,6 +133,16 @@ void aiFunction() {
       }
     }
     print('created all the lines in the firstChainMoves list');
+    //if the length of the safeLines is not zero then create a line from the list of the safeLines else create from the leastSMC
+    if (safeLines.length != 0) {
+      Lines useless = safeLines[0]!;
+      createLine(useless.firstPoint, useless.secondPoint);
+      print('created line from the safe Lines');
+    } else {
+      Lines useless = leastSMC[0];
+      createLine(useless.firstPoint, useless.secondPoint);
+      print('created line from the leastSMC');
+    }
   }
 
   //implementing the doTrickShot function
