@@ -12,7 +12,7 @@ Lines createLine(Points p1, Points p2) {
     //check in allPoints where a point matches with p2 and mark that point as selected
     //TODO:set isSelected to false and isMarked to true for the point p1 and p2 if line is valid and not already drawn after the square is checked and formed
     allPoints.forEach((element) {
-      if (element == p2) {
+      if (element == p2 || element == p1) {
         element.isSelected = true;
       }
     });

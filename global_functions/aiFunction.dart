@@ -47,6 +47,25 @@ void aiFunction() {
   // }
 
   //creating a nullable list of safeLine Lines objects
+  bool isSafeLine(Lines line) {
+    Lines currentLine = line;
+
+// so in total the above 20 scenarios are the unsafe scenarios and we need to make sure that none of these scenarios occur when we are trying to find a safe line. If any of these scenarios occur then we need to find another safe line. If none of these scenarios occur then we can say that the line is safe to draw.
+//list of first four scenarios ie. the two parallel vertical lines and two parallel horizontal lines will be checked in the following code
+//the firstTwoScenarios are testing only if the current line is a horizontal line
+
+    bool isSafeFirstTwo = (currentLine.lineDirection == LineDirection.Horiz) ? firstTwoScenarios(currentLine) : true;
+    bool isSafeSecondTwo = (currentLine.lineDirection == LineDirection.Vert) ? secondTwoScenarios(currentLine) : true;
+
+    bool isSafeFirstEight = firstEightScenarios(currentLine);
+    bool isSafeSecondEight = secondEightScenarios(currentLine);
+
+    if (isSafeFirstTwo && isSafeSecondTwo && isSafeFirstEight && isSafeSecondEight) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 
   List<Lines?> safeLines = [];
 
@@ -101,40 +120,19 @@ void aiFunction() {
     }
   }
 
-  //Now that we have the sufficient data we are gonna implement the necessary functions for the aiFunction to make the best move
-
-// After knowing about the safelines, firstMaxSquareChain list and the secondMaxSquareChain list of lists, we now need to let the ai function create appropriate line based on the situation’s safeLines, leastSquareMaxChain, and firstMaxSquareChain to make the appropriate move. A leastSquareMaxChain is a list of lines in the in the  secondMaxSquareChain which contains the lease number of elements/lines. Here is the pseudo code for how the ai will createLine:
-
-/*If( safeLines.length == 0 && leastSquareMaxChain.length > (1.5* firstMaxSquareChain)){
-	doTrickShot();
-	}else{
-		completeFMC();
-	}
-
-Void doTrickShot(FMC){
-	If(FMC.length > 1){
-		Int trickShotMove = 0;
-		While(trickShotMove < FMC.length-2){
-			createLine(FMC[trickShotMove]); //run this loop until the secondLastLine. (without secondlastLine)
-			trickShotMove++;
-			}
-		createLine( FMC [ FMC.length – 1 ] ); //create last line
-		}
-	If( FMC.length ==1 ) { completeFMC();} else{
-			createLine( leastSquareMaxChain.selectRandomIndex() );//select any random line from the secondMaxChain length. And create line from it.
-		}
-	 
-	}*/
 //implementing the completeFMC function
 
   void completeFMC() {
     for (int i = 0; i < firstChainMoves.length; i++) {
       if (!allLines.contains(firstChainMoves[i])) {
         createLine(firstChainMoves[i].firstPoint, firstChainMoves[i].secondPoint);
-        break;
+
+        // break; don't break the loop as we need to create all the lines in the firstChainMoves
+      } else {
+        print('allLines already contains all the lines in the firstChainMoves list: unusual case');
       }
-      print('allLines already contains all the lines in the firstChainMoves list: unusual case');
     }
+    print('created all the lines in the firstChainMoves list');
   }
 
   //implementing the doTrickShot function
@@ -146,45 +144,27 @@ Void doTrickShot(FMC){
         createLine(FMC[trickShotMove].firstPoint,
             FMC[trickShotMove].secondPoint); //run this loop until the secondLastLine. (without secondlastLine)
         trickShotMove++;
+        print('trickShotMove is $trickShotMove');
       }
       createLine(
           FMC[FMC.length - 1].firstPoint,
           FMC[FMC.length - 1]
-              .secondPoint); //create last line //useless means that i am just making a move and i don't need the returned line
+              .secondPoint); //dart allows us to discard the return value of a function. So we can just discard the return value of the createLine function
+      if (FMC.length == 1) {
+        completeFMC();
+      } else {
+        Lines useless2 =
+            leastSMC[0]; //useless2 means that i am just using it to make a move and i don't need the returned line
+        createLine(useless2.firstPoint,
+            useless2.secondPoint); //select any random line from the secondMaxChain length. And create line from it.
+      }
     }
-    if (FMC.length == 1) {
-      completeFMC();
-    } else {
-      Lines useless2 =
-          leastSMC[0]; //useless2 means that i am just using it to make a move and i don't need the returned line
-      createLine(useless2.firstPoint,
-          useless2.secondPoint); //select any random line from the secondMaxChain length. And create line from it.
-    }
-  }
+  } //end of doTrickShot function
 
   if (safeLines.length == 0 && leastSMC.length > (1.5 * firstChainMoves.length)) {
+    print('doTrickShot function called');
     doTrickShot(firstChainMoves);
   } else {
-    //completeFMC();
-  }
-}
-
-bool isSafeLine(Lines line) {
-  Lines currentLine = line;
-
-// so in total the above 20 scenarios are the unsafe scenarios and we need to make sure that none of these scenarios occur when we are trying to find a safe line. If any of these scenarios occur then we need to find another safe line. If none of these scenarios occur then we can say that the line is safe to draw.
-//list of first four scenarios ie. the two parallel vertical lines and two parallel horizontal lines will be checked in the following code
-//the firstTwoScenarios are testing only if the current line is a horizontal line
-
-  bool isSafeFirstTwo = (currentLine.lineDirection == LineDirection.Horiz) ? firstTwoScenarios(currentLine) : true;
-  bool isSafeSecondTwo = (currentLine.lineDirection == LineDirection.Vert) ? secondTwoScenarios(currentLine) : true;
-
-  bool isSafeFirstEight = firstEightScenarios(currentLine);
-  bool isSafeSecondEight = secondEightScenarios(currentLine);
-
-  if (isSafeFirstTwo && isSafeSecondTwo && isSafeFirstEight && isSafeSecondEight) {
-    return true;
-  } else {
-    return false;
-  }
+    completeFMC();
+  } //end of aiFunction making a move
 }
