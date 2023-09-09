@@ -90,16 +90,83 @@ void aiFunction() {
   List<List<Lines>> secondChainMoves = [];
   secondChainMoves = secondMaxSquareChain(List.from(totalLines), List.from(allLines), List.from(firstChainMoves));
   print('second chain moves length is ${secondChainMoves.length}');
-  //printing the list with maximum length
-  int maxLength = 0;
-  int maxLengthIndex = 0;
+
+  //idetifying leastSquareMaxChain in the secondChainMoves list of lists
+
+  List<Lines> leastSMC = [];
+  leastSMC = secondChainMoves[0];
   for (int i = 0; i < secondChainMoves.length; i++) {
-    if (secondChainMoves[i].length > maxLength) {
-      maxLength = secondChainMoves[i].length;
-      maxLengthIndex = i;
+    if (secondChainMoves[i].length < leastSMC.length) {
+      leastSMC = secondChainMoves[i];
     }
   }
-  print('the maximum length in the secondMaxSquareChain is $maxLength');
+
+  //Now that we have the sufficient data we are gonna implement the necessary functions for the aiFunction to make the best move
+
+// After knowing about the safelines, firstMaxSquareChain list and the secondMaxSquareChain list of lists, we now need to let the ai function create appropriate line based on the situation’s safeLines, leastSquareMaxChain, and firstMaxSquareChain to make the appropriate move. A leastSquareMaxChain is a list of lines in the in the  secondMaxSquareChain which contains the lease number of elements/lines. Here is the pseudo code for how the ai will createLine:
+
+/*If( safeLines.length == 0 && leastSquareMaxChain.length > (1.5* firstMaxSquareChain)){
+	doTrickShot();
+	}else{
+		completeFMC();
+	}
+
+Void doTrickShot(FMC){
+	If(FMC.length > 1){
+		Int trickShotMove = 0;
+		While(trickShotMove < FMC.length-2){
+			createLine(FMC[trickShotMove]); //run this loop until the secondLastLine. (without secondlastLine)
+			trickShotMove++;
+			}
+		createLine( FMC [ FMC.length – 1 ] ); //create last line
+		}
+	If( FMC.length ==1 ) { completeFMC();} else{
+			createLine( leastSquareMaxChain.selectRandomIndex() );//select any random line from the secondMaxChain length. And create line from it.
+		}
+	 
+	}*/
+//implementing the completeFMC function
+
+  void completeFMC() {
+    for (int i = 0; i < firstChainMoves.length; i++) {
+      if (!allLines.contains(firstChainMoves[i])) {
+        createLine(firstChainMoves[i].firstPoint, firstChainMoves[i].secondPoint);
+        break;
+      }
+      print('allLines already contains all the lines in the firstChainMoves list: unusual case');
+    }
+  }
+
+  //implementing the doTrickShot function
+
+  void doTrickShot(List<Lines> FMC) {
+    if (FMC.length > 1) {
+      int trickShotMove = 0;
+      while (trickShotMove < FMC.length - 2) {
+        createLine(FMC[trickShotMove].firstPoint,
+            FMC[trickShotMove].secondPoint); //run this loop until the secondLastLine. (without secondlastLine)
+        trickShotMove++;
+      }
+      createLine(
+          FMC[FMC.length - 1].firstPoint,
+          FMC[FMC.length - 1]
+              .secondPoint); //create last line //useless means that i am just making a move and i don't need the returned line
+    }
+    if (FMC.length == 1) {
+      completeFMC();
+    } else {
+      Lines useless2 =
+          leastSMC[0]; //useless2 means that i am just using it to make a move and i don't need the returned line
+      createLine(useless2.firstPoint,
+          useless2.secondPoint); //select any random line from the secondMaxChain length. And create line from it.
+    }
+  }
+
+  if (safeLines.length == 0 && leastSMC.length > (1.5 * firstChainMoves.length)) {
+    doTrickShot(firstChainMoves);
+  } else {
+    //completeFMC();
+  }
 }
 
 bool isSafeLine(Lines line) {
