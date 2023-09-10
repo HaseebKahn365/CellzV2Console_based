@@ -5,6 +5,7 @@ class GameCanvas {
   int numOfXPoints = 0; // number of points on the x axis.
   int numOfYPoints = 0; // number of points on the y axis.
   static bool isGameOver = false; // toCheck if the game is over or not
+  bool isMyTurn = true; //to control the touch events
   static int movesLeft =
       0; // to check how many moves are left. Todo: this must be assigned the value of caculateMovesLeft() function. soon after declaring the object of this class.
   int level;
