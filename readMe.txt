@@ -717,3 +717,5 @@ Void doTrickShot(FMC){
 	 
 	}
 Now implementing the completeFMC() this is used for creating the newlines without the need for the doTrickShot(). The logic for the completeFMC() is quite simple. We just have to go through every line in the in the firstMaxSquareChain list of lines and create newLine using the create function for each one of the lines in the firstMaxSquareChain
+
+Now working on the logic to make the UI functional

@@ -66,14 +66,12 @@ void aiFunction() {
       return false;
     }
   }
-
-  List<Lines?> safeLines = [];
-
-  //implementing the logic to assign a proper safe Lines to the safeLines list
+//implementing the logic to assign a proper safe Lines to the safeLines list
   //we will iterate through all the totalLines then look for the unsafe lines in the allLines and assign all the safe lines to the safeLines list
   //Lets create another function that looks for a safeLine and returns it
 
 //lets dig through the entire possible horizontal lines and find the safe line
+  List<Lines?> safeLines = [];
 
   for (int i = 0; i < totalLines.length; i++) {
     if (totalLines[i].lineDirection == LineDirection.Horiz) {
